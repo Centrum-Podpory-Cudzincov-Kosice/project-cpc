@@ -20,7 +20,7 @@
 
 .logo img {
     width: 7em;
-    height: fit-content;
+    max-height: 9dvh;
 }
 
 .links {
@@ -46,6 +46,7 @@
     display: flex;
     align-items: center;
     gap: 1em;
+    margin-top: 0.5em;
 }
 
 .buttonsRight svg {
