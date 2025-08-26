@@ -1,10 +1,10 @@
 import styles from "./nav-sidebar.module.css";
 import navLinks from "../../lib/nav-links";
-import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useAppNavigation} from "../../hooks/use-app-navigation";
 
 export default function NavSidebar({sidebarToggle}) {
-    const navigate = useNavigate();
+    const appNavigate = useAppNavigation();
     const {t} = useTranslation(["nav"]);
 
     return (
@@ -14,7 +14,7 @@ export default function NavSidebar({sidebarToggle}) {
                     return (
                         <li key={index}
                             onClick={() => {
-                                navigate(link.url)
+                                appNavigate(link.url)
                             }}
                         >
                             {t(link.label)}

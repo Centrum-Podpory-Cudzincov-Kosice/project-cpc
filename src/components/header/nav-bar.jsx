@@ -1,10 +1,10 @@
 import styles from "./header.module.css";
 import navLinks from "../../lib/nav-links";
-import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useAppNavigation} from "../../hooks/use-app-navigation";
 
 export default function NavBar() {
-    const navigate = useNavigate();
+    const appNavigate = useAppNavigation();
     const {t} = useTranslation(["nav"]);
 
     return (
@@ -13,7 +13,7 @@ export default function NavBar() {
                 return (
                     <p key={index}
                        onClick={() =>
-                           navigate(link.url)
+                           appNavigate(link.url)
                        }>
                         {t(link.label)}
                     </p>
