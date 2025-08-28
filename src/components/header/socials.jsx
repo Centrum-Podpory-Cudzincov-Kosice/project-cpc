@@ -1,18 +1,18 @@
 import styles from "../header/header.module.css";
-import {FaFacebookF, FaPhoneAlt, FaTelegramPlane} from "react-icons/fa";
+import {FaFacebookF, FaViber, FaTelegramPlane} from "react-icons/fa";
 
 export default function Socials() {
     return (
         <div className={styles.socials}>
-            <a className={styles.socialsBtn} href="#" aria-label="Facebook">
-                <FaFacebookF/>
-            </a>
-            <a className={styles.socialsBtn} href="#" aria-label="Telegram">
-                <FaTelegramPlane/>
-            </a>
-            <a className={styles.socialsBtn} href="tel:+421908365995" aria-label="Phone">
-                <FaPhoneAlt/>
-            </a>
+            <a className={styles.iconBtn} href="https://www.facebook.com/CentrumPodporyCudzincovKosice" aria-label="Facebook">
+                <FaFacebookF />
+              </a>
+              <a className={styles.iconBtn} href="https://t.me/+421908365995" aria-label="Telegram">
+                <FaTelegramPlane />
+              </a>
+              <a className={styles.iconBtn} href="tel:+421908365995" aria-label="Viber">
+                <FaViber />
+              </a>
         </div>
     );
 }
