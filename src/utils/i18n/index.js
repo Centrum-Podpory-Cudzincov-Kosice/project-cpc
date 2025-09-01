@@ -15,7 +15,7 @@ const importAllNs = (r) => {
 const resources = {
     en: importAllNs(require.context("./en", false, /\.json$/)),
     sk: importAllNs(require.context("./sk", false, /\.json$/)),
-    ua: importAllNs(require.context("./ua", false, /\.json$/)),
+    ua: importAllNs(require.context("./uk", false, /\.json$/)),
 };
 
 i18n.use(LanguageDetector)
