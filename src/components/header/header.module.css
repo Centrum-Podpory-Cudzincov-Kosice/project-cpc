@@ -26,14 +26,13 @@
 }
 
 .kosiceLogo {
+    display: none;
     width: 8em;
     max-height: 9dvh;
 }
 
 .cpcLogo {
-    display: none;
     width: 9em;
-    max-height: 8dvh;
 }
 
 .links {
@@ -177,7 +176,7 @@
 }
 
 @media (min-width: 768px) {
-    .cpcLogo {
+    .kosiceLogo {
         display: block;
     }
 }

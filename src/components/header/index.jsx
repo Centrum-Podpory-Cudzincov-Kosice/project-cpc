@@ -5,7 +5,6 @@ import LanguageSwitcher from "./language-switcher";
 import useScrolledFromTop from "../../hooks/useScrolledFromTop";
 import Socials from "./socials";
 import {ReactComponent as KosiceLogo} from "../../assets/logo-white.svg";
-import {ReactComponent as CPCLogo} from "../../assets/logo-cpc.svg";
 
 export default function Header({
                                    sidebarToggle, setSidebarToggle
@@ -16,8 +15,8 @@ export default function Header({
         <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
             <a href={"/"}>
                 <div className={styles.logo}>
+                    <img src={"/logo.png"} alt={""} className={styles.cpcLogo}/>
                     <KosiceLogo className={styles.kosiceLogo}/>
-                    <CPCLogo className={styles.cpcLogo}/>
                 </div>
             </a>
             <NavBar/>
