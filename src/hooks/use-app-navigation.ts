@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 export function useAppNavigation() {
     const navigate = useNavigate();
 
-    return (url) => {
+    return (url: string) => {
         if (!url) return;
 
         if (url.startsWith("#")) {

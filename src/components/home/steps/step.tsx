@@ -1,9 +1,21 @@
 import styles from "./steps.module.css";
-import {useEffect} from "react";
+import {useEffect, ReactNode} from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-export default function Step({number, heading, delay, className, children}) {
+export default function Step({
+                                 number,
+                                 heading,
+                                 delay,
+                                 className,
+                                 children
+                             }: {
+    number: string | number;
+    heading: string;
+    delay?: number;
+    className?: string;
+    children?: ReactNode;
+}) {
     useEffect(() => {
         AOS.init({
             duration: 1000,

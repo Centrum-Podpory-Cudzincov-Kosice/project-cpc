@@ -5,7 +5,7 @@ import {useTranslation} from "react-i18next";
 export default function HeroSection() {
     const {t} = useTranslation(["home"]);
 
-    const videoRef = useRef(null);
+    const videoRef = useRef<HTMLVideoElement | null>(null);
 
     useEffect(() => {
         const video = videoRef.current;
@@ -15,7 +15,8 @@ export default function HeroSection() {
         video.defaultMuted = true;
 
         const onTouch = () => {
-            video.play().catch(() => {});
+            video.play().catch(() => {
+            });
             window.removeEventListener("touchstart", onTouch);
         };
 

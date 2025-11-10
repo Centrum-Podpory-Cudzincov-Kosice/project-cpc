@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-export default function useScrolledFromTop(value) {
+export default function useScrolledFromTop(value: number) {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {

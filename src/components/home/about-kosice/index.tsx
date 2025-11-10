@@ -4,13 +4,13 @@ import {useEffect, useRef} from "react";
 
 export default function AboutKosice() {
     const {t} = useTranslation("home");
-    const bgLayerRef = useRef(null);
+    const bgLayerRef= useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent);
         const bgElement = bgLayerRef.current;
 
-        if(isIos) {
+        if(isIos && bgElement) {
             bgElement.style.backgroundAttachment = "unset";
         }
 

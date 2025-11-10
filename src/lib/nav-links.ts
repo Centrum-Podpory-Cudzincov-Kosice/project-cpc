@@ -1,12 +1,8 @@
 const navLinks = [
-/*    {
-        label: "homeLink",
-        url: "/"
-    },
     {
-        label: "aboutUsLink",
-        url: "/"
-    }*/
+        label: "events",
+        url: "/podujatia"
+    },
     {
         label: 'contacts',
         url: '#contacts',

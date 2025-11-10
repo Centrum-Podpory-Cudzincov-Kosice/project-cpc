@@ -2,13 +2,16 @@ import styles from "./header.module.css";
 import {IoMdClose} from "react-icons/io";
 import {RiMenu2Line} from "react-icons/ri";
 
-export default function SidebarButton({sidebarToggle, setSidebarToggle}) {
+export default function SidebarButton({sidebarToggle, toggleSidebar}: {
+    sidebarToggle: boolean,
+    toggleSidebar: (toggle: boolean) => void
+}) {
     const openSidebar = () => {
-        setSidebarToggle(true);
+        toggleSidebar(true);
     }
 
     const closeSidebar = () => {
-        setSidebarToggle(false);
+        toggleSidebar(false);
     }
 
     return (

@@ -10,10 +10,8 @@ export default function Footer() {
 
     return (
         <footer className={styles.container}>
-            {/* Внутрішній блок для центрування і обмеження ширини */}
             <div className={styles.content}>
 
-                {/* верхній блок */}
                 <div className={styles.topGrid}>
                     <FirstOfficeBlock/>
 
@@ -24,7 +22,6 @@ export default function Footer() {
                     )}
                 </div>
 
-                {/* нижній блок */}
                 {location.pathname !== "/" && (
                     <>
                         <hr className={styles.divider}/>

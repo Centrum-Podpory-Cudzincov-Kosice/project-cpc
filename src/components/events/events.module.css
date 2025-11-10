@@ -1,0 +1,40 @@
+.gridContainer {
+    display: grid;
+    gap: 2em;
+    padding: 1em 3em;
+}
+
+.gridBox {
+    background-color: var(--main-yellow);
+    display: grid;
+    align-items: end;
+    justify-items: center;
+    text-align: center;
+    padding: 2em;
+    border-radius: 10px;
+}
+
+.gridBox h2 {
+    font-size: 1.5rem;
+}
+
+.gridImage {
+    width: 90%;
+    border-radius: 5px;
+}
+
+.gridDate {
+    font-weight: 600;
+}
+
+@media (min-width: 640px) {
+    .gridContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .gridContainer {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

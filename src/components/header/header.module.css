@@ -3,7 +3,7 @@
     top: 0;
     max-width: 100dvw;
     height: 12dvh;
-    background-color: transparent;
+    background-color: var(--main-blue);
     color: #f4f4f4;
     transition: all 0.8s ease;
     z-index: 100;
@@ -14,7 +14,7 @@
 }
 
 .scrolled {
-    background-color: var(--main-blue);
+    background-color: var(--main-blue) !important;
     padding: 0.25dvh 2em;
 }
 
@@ -23,6 +23,7 @@
     display: flex;
     align-items: center;
     gap: 1em;
+    cursor: pointer;
 }
 
 .kosiceLogo {

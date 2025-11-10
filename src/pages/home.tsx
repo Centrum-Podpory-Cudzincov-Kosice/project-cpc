@@ -13,7 +13,7 @@ export default function Home() {
             <ServisSection/>
             <AboutKosice/>
             <Steps/>
-            <ContactsMaps/>
+            <ContactsMaps />
         </main>
     );
 }

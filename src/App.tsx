@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import NavSidebar from "./components/nav-sidebar";
 import {useState} from "react";
 import Header from "./components/header";
+import Events from "./pages/events";
 import Footer from "./components/footer";
 
 function App() {
@@ -11,6 +12,10 @@ function App() {
 
     const closeIfOpened = () => {
         if (sidebarToggle) setSidebarToggle(false);
+    }
+
+    const toggleSidebar = () => {
+        setSidebarToggle(prevState => !prevState)
     }
 
     return (
@@ -22,11 +27,12 @@ function App() {
                          closeIfOpened();
                      }}>
                     <Header sidebarToggle={sidebarToggle}
-                            setSidebarToggle={setSidebarToggle}
+                            toggleSidebar={toggleSidebar}
                     />
 
                     <Routes>
                         <Route index element={<Home/>}/>
+                        <Route path={"/podujatia"} element={<Events/>}/>
                     </Routes>
 
                     <Footer/>

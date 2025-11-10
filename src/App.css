@@ -37,6 +37,12 @@
     initial-value: #f6d400;
 }
 
+@property --gray {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #e5e9ec;
+}
+
 root {
     font-size: 14px;
 }
