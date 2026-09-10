@@ -1,5 +1,4 @@
 import styles from "./articles.module.css";
-import {ArticleType, MultilingualArticle} from "../../types";
 import clsx from "clsx";
 import {useTranslation} from "react-i18next";
 import {useMemo} from "react";
@@ -7,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import Gallery from "./Gallery";
 import localizeArticle from "../../lib/localizeArticle";
+import {ArticleType, MultilingualArticle} from "@cpc/article-system";
 
 const MAX_DESCRIPTION_LENGTH = 250;
 
@@ -49,7 +49,7 @@ export default function ArticleCard({article, lang, isLast, currentPage}: {
                         {title}
                     </h2>
 
-                    {article.showDate && date !== "Invalid Date" && (
+                    {date !== "Invalid Date" && (
                         <p className={styles.date}>
                             {date}
                         </p>

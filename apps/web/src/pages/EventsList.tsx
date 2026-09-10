@@ -4,7 +4,7 @@ import {ErrorBoundary} from "react-error-boundary";
 import {Suspense, useEffect} from "react";
 import ArticlesListLoading from "../components/skeletons/articles-list-loading/ArticlesListLoading";
 import ArticlesList from "../components/articles/ArticlesList";
-import {ArticleType} from "../types";
+import {ArticleType} from "@cpc/article-system";
 
 export default function EventsListPage() {
     const {t} = useTranslation(["articles"]);

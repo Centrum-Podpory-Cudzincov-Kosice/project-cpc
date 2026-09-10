@@ -1,9 +1,10 @@
 import {InfiniteData, useSuspenseInfiniteQuery} from "@tanstack/react-query";
-import {ArticlesPage, ArticleType} from "../types";
+import {ArticlesPage} from "../types";
 import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
-import {getArticlesPage} from "../api/articlesData";
 import {useTranslation} from "react-i18next";
+import {getArticlesByType} from "../api/articles";
+import {ArticleType} from "@cpc/article-system";
 
 export function useArticlesPage(currentPage: number, type: ArticleType): {
     pages: ArticlesPage[],
@@ -18,12 +19,12 @@ export function useArticlesPage(currentPage: number, type: ArticleType): {
         Error,
         InfiniteData<ArticlesPage>,
         ["articles", ArticleType, string],
-        string | undefined
+        number
     >({
         queryKey: ["articles", type, i18n.language],
         queryFn: ({pageParam}) =>
-            getArticlesPage(type, pageParam),
-        initialPageParam: undefined,
+            getArticlesByType(type, pageParam),
+        initialPageParam: 0,
         getNextPageParam: lastPage => lastPage.nextOffset,
     });
 

@@ -1,3 +1,4 @@
+/*
 import axios from "axios";
 import {ArticlesPage, ArticleType, MultilingualArticle} from "../types";
 import mapArticle from "../utils/mappers/mapArticles";
@@ -55,4 +56,4 @@ export async function getArticleById(id: string): Promise<MultilingualArticle | 
         console.error("Error fetching articles:", error);
         return null;
     }
-}
+}*/

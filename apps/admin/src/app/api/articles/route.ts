@@ -1,105 +1,78 @@
 import {createClient} from "@/lib/supabase/server";
 import {NextResponse} from "next/server";
-import {S3Client, PutObjectCommand} from "@aws-sdk/client-s3";
-import {createAdminClient} from "@/lib/supabase/server-admin";
-
-const s3 = new S3Client({
-    region: process.env.AWS_REGION!,
-    credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-    },
-});
-
-const BUCKET = process.env.AWS_BUCKET_NAME!;
-const REGION = process.env.AWS_REGION!;
 
 export async function GET(req: Request) {
     const supabase = await createClient();
 
     const {searchParams} = new URL(req.url);
-    const type = searchParams.get("type");
 
-    const {data, error} = await supabase
+    const type = searchParams.get("type");
+    const fromParam = searchParams.get("from");
+    const toParam = searchParams.get("to");
+
+    const from = fromParam !== null ? Number(fromParam) : 0;
+    const to = toParam !== null ? Number(toParam) : 2;
+
+    if (!type) {
+        return Response.json(
+            {error: "Missing type parameter"},
+            {status: 400}
+        );
+    }
+
+    if (
+        !Number.isInteger(from) ||
+        !Number.isInteger(to) ||
+        from < 0 ||
+        to < from
+    ) {
+        return Response.json(
+            {error: "Invalid from/to parameters"},
+            {status: 400}
+        );
+    }
+
+    const {data, error, count} = await supabase
         .from("articles")
-        .select("id,title_sk,date")
+        .select("id,title_sk,date", {count: "exact"})
         .eq("type", type)
-        .order("date", {ascending: false});
+        .order("date", {ascending: false})
+        .range(from, to);
 
     if (error) {
         return Response.json({error}, {status: 500});
     }
 
-    return Response.json(data);
+    return Response.json({
+        articles: data,
+        total: count,
+    });
 }
 
 export async function POST(req: Request) {
-    const supabase = await createAdminClient();
+    const supabase = await createClient();
 
-    const formData = await req.formData();
+    const {data: {user}} = await supabase.auth.getUser();
 
-    const {data: article, error} = await supabase
-        .from("articles")
-        .insert({
-            title_sk: formData.get("title_sk"),
-            title_en: formData.get("title_en"),
-            title_uk: formData.get("title_uk"),
-
-            description_sk: formData.get("description_sk"),
-            description_en: formData.get("description_en"),
-            description_uk: formData.get("description_uk"),
-
-            date: formData.get("date"),
-            type: formData.get("type"),
-            published: formData.get("published") === "true",
-
-            images: [],
-        })
-        .select()
-        .single();
-
-    const files = formData.getAll("images") as File[];
-    const imageIds = formData.getAll("imageIds") as string[];
-
-    const imageUrls: string[] = [];
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const imageId = imageIds[i];
-
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const extension = file.name.split(".").pop();
-
-        const key = `articles/${article.id}/${imageId}.${extension}`;
-
-        await s3.send(
-            new PutObjectCommand({
-                Bucket: BUCKET,
-                Key: key,
-                Body: buffer,
-                ContentType: file.type,
-            })
-        );
-
-        imageUrls.push(
-            `https://${BUCKET}.s3.${REGION}.amazonaws.com/${key}`
-        );
+    if (!user) {
+        return NextResponse.json({error: 'Unauthorized'}, {status: 401});
     }
 
-    const {data: updatedArticle} = await supabase
-        .from("articles")
-        .update({
-            images: imageUrls,
-        })
-        .eq("id", article.id)
-        .select()
+    const {data: profile} = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
         .single();
 
-    if (error) {
-        return NextResponse.json(
-            {error},
-            {status: 500}
-        );
+    if (profile?.role !== 'admin') {
+        return NextResponse.json({error: 'Forbidden'}, {status: 403});
     }
 
-    return NextResponse.json(updatedArticle);
+    const body = await req.json();
+
+    const {data, error} = await supabase
+        .from('articles')
+        .insert(body);
+
+    return NextResponse.json({data, error});
 }
