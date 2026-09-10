@@ -4,7 +4,7 @@ import ArticlesListLoading from "../components/skeletons/articles-list-loading/A
 import {ErrorBoundary} from "react-error-boundary";
 import {Suspense, useEffect} from "react";
 import ArticlesList from "../components/articles/ArticlesList";
-import {ArticleType} from "../types";
+import {ArticleType} from "@cpc/article-system";
 
 export default function NewsListPage() {
     const {t} = useTranslation(["articles"]);

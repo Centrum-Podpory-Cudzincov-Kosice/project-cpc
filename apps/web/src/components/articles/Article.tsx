@@ -1,12 +1,11 @@
 import styles from "./articles.module.css";
-import {ArticleType, MultilingualArticle} from "../../types";
-import Gallery from "./Gallery";
 import {useMemo} from "react";
 import i18n from "i18next";
-import localizeArticle from "../../lib/localizeArticle";
-import ReactMarkdown from "react-markdown";
 import {useTranslation} from "react-i18next";
 import {useLocation, useNavigate} from "react-router-dom";
+import {ArticleContainer, ArticleType, Gallery, MultilingualArticle} from "@cpc/article-system";
+import localizeArticle from "../../lib/localizeArticle";
+import ReactMarkdown from "react-markdown";
 
 export default function Article({articleData, type}: {
     articleData: MultilingualArticle,
@@ -40,28 +39,29 @@ export default function Article({articleData, type}: {
     };
 
     return (
-        <article className={styles.article}>
-            <button className={styles.backBtn}
-                    onClick={backHandler}>
-                ← &nbsp;{t("backBtn")}
-            </button>
-            <div>
-                <Gallery images={articleData.images}/>
-            </div>
-            <div className={styles.textContent}>
-                <h2 className={styles.articleTitle}>
-                    {title}
-                </h2>
-                <b className={styles.date}>
-                    {date}
-                </b>
-                <p className={styles.articleText}>
-                    <ReactMarkdown>
-                        {text}
-                    </ReactMarkdown>
-                </p>
-            </div>
+        <ArticleContainer
+            navigation={
+                <button className={styles.backBtn}
+                        onClick={backHandler}>
+                    ← &nbsp;{t("backBtn")}
+                </button>
+            }
 
-        </article>
+            gallery={
+                <div>
+                    <Gallery images={articleData.images}/>
+                </div>
+            }
+
+            title={title}
+
+            date={date}
+
+            content={
+                <ReactMarkdown>
+                    {text}
+                </ReactMarkdown>
+            }
+        />
     );
 }

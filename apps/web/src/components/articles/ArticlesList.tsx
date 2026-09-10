@@ -5,8 +5,9 @@ import {useMemo} from "react";
 import ArticlesListLoading from "../skeletons/articles-list-loading/ArticlesListLoading";
 import {useArticlesPage} from "../../hooks/useArticlesPagination";
 import ArticleCard from "./ArticleCard";
-import {ArticlesPage, ArticleType} from "../../types";
+import {ArticlesPage} from "../../types";
 import {useSearchParams} from "react-router-dom";
+import {ArticleType} from "@cpc/article-system";
 
 export default function ArticlesList({type}: {
     type: ArticleType
@@ -15,8 +16,6 @@ export default function ArticlesList({type}: {
     const page = searchParams.get("page");
     const currentPage = Number(page);
     if (isNaN(currentPage)) throw new Error("Page not found");
-
-    console.log("type in ArticlesList: ", type);
 
     const {pages, setPage, loading, total} = useArticlesPage(currentPage, type);
 

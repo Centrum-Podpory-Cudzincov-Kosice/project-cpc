@@ -21,8 +21,8 @@ export default function ArticlesList({type}: {
         try {
             setLoading(true);
             const res =
-                await axios.get(`/api/articles?type=${type}`);
-            setArticles(res.data);
+                await axios.get(`/api/articles?type=${type}&from=${0}&to=${6}`);
+            setArticles(res.data.articles);
         } catch (e) {
             console.error(e);
             setError("Failed to fetch articles");
@@ -40,7 +40,7 @@ export default function ArticlesList({type}: {
 
     return (
         <ul>
-            {articles.map((article) => (
+            {articles.length > 0 && articles.map((article) => (
                 <li key={article.id}
                     className={styles.tableRow}>
                     <h3>{article.title_sk}</h3>
