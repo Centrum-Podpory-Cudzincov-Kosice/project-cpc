@@ -21,8 +21,6 @@ export async function getArticlesPageByType(type: string, page: number): Promise
         throw new Error("Failed to fetch articles");
     }
 
-    console.log(from, to, data)
-
     return {
         articles: mapArticles(data),
         nextOffset: data.length === PAGE_SIZE ? page + 1 : undefined,
@@ -40,5 +38,5 @@ export async function getArticle(id: string): Promise<MultilingualArticle> {
         throw new Error("Failed to fetch article");
     }
 
-    return mapArticle([data]);
+    return mapArticle(data);
 }
