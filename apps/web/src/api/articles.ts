@@ -1,8 +1,11 @@
 import {supabase} from "../lib/supabase";
+import {ArticlesPage} from "../types";
+import {mapArticle, mapArticles} from "../utils/mappers/mapArticles";
+import {MultilingualArticle} from "@cpc/article-system";
 
 const PAGE_SIZE = 4;
 
-export async function getArticlesByType(type: string, page: number) {
+export async function getArticlesPageByType(type: string, page: number): Promise<ArticlesPage> {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
 
@@ -18,10 +21,15 @@ export async function getArticlesByType(type: string, page: number) {
         throw new Error("Failed to fetch articles");
     }
 
-    return data;
+    console.log(from, to, data)
+
+    return {
+        articles: mapArticles(data),
+        nextOffset: data.length === PAGE_SIZE ? page + 1 : undefined,
+    };
 }
 
-export async function getArticle(id: string) {
+export async function getArticle(id: string): Promise<MultilingualArticle> {
     const {data, error} = await supabase
         .from("articles")
         .select("*")
@@ -32,5 +40,5 @@ export async function getArticle(id: string) {
         throw new Error("Failed to fetch article");
     }
 
-    return data;
+    return mapArticle([data]);
 }

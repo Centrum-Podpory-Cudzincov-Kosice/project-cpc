@@ -2,6 +2,7 @@ import styles from "./header.module.css";
 import languages from "./languages";
 import clsx from "clsx";
 import {useLanguage} from "../../providers/languageProvider";
+import stringToLanguage from "../../utils/mappers/stringToLanguage";
 
 export default function LanguageSwitcher() {
     const {lang, changeLangWithAnimation} = useLanguage();
@@ -27,7 +28,7 @@ export default function LanguageSwitcher() {
                         <div key={index}
                              className={styles.languageVariant}
                              onClick={() => {
-                                 if(language.systemName !== lang) changeLangWithAnimation(language.systemName);
+                                 if(language.systemName !== lang) changeLangWithAnimation(stringToLanguage(language.systemName));
                              }}
                         >
                             <p>{language.label}</p>

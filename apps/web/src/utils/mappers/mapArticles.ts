@@ -1,32 +1,25 @@
-import {ArticleType, MultilingualArticle} from "../../types";
+import {ArticleType, MultilingualArticle} from "@cpc/article-system";
 
-function mapType(type: string): ArticleType {
-    switch (type) {
-        case "Event":
-            return ArticleType.EVENT;
-        case "News":
-            return ArticleType.NEWS;
-        default:
-            return ArticleType.NEWS;
-    }
+export function mapArticle(article: any): MultilingualArticle {
+    return {
+        id: article.id,
+        created_at: article.created_at,
+        date: article.date,
+        type: article.type as ArticleType,
+
+        title_sk: article.title_sk,
+        title_uk: article.title_uk,
+        title_en: article.title_en,
+
+        description_sk: article.description_sk,
+        description_uk: article.description_uk,
+        description_en: article.description_en,
+
+        images: article.images,
+        published: article.published,
+    };
 }
 
-export default function mapArticle(record: any): MultilingualArticle {
-    return {
-        id: record.id,
-        titleSK: record.fields["TitleSK"],
-        titleUA: record.fields["TitleUA"],
-        titleEN: record.fields["TitleEN"],
-        descriptionSK: record.fields["DescriptionSK"],
-        descriptionUA: record.fields["DescriptionUA"],
-        descriptionEN: record.fields["DescriptionEN"],
-        date: record.fields["Date"],
-        showDate: record.fields["ShowDate"],
-        images:
-            record.fields["Image"] &&
-            record.fields["Image"].length > 0
-                ? record.fields["Image"].map((img: any) => img.url)
-                : null,
-        type: mapType(record.fields["Type"]),
-    };
+export function mapArticles(articles: any[]): MultilingualArticle[] {
+    return articles.map(mapArticle);
 }
