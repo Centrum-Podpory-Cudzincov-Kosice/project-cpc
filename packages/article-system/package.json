@@ -10,5 +10,11 @@
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "@cpc/hooks": "*",
+    "clsx": "^2.1.1",
+    "embla-carousel-react": "^8.6.0",
+    "react-icons": "^5.5.0"
   }
 }
