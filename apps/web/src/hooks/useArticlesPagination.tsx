@@ -3,7 +3,7 @@ import {ArticlesPage} from "../types";
 import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {getArticlesByType} from "../api/articles";
+import {getArticlesPageByType} from "../api/articles";
 import {ArticleType} from "@cpc/article-system";
 
 export function useArticlesPage(currentPage: number, type: ArticleType): {
@@ -23,12 +23,10 @@ export function useArticlesPage(currentPage: number, type: ArticleType): {
     >({
         queryKey: ["articles", type, i18n.language],
         queryFn: ({pageParam}) =>
-            getArticlesByType(type, pageParam),
-        initialPageParam: 0,
+            getArticlesPageByType(type, pageParam),
+        initialPageParam: 1,
         getNextPageParam: lastPage => lastPage.nextOffset,
     });
-
-    console.log("type in useArticlesPage: ", type);
 
     const pagesLoaded = data?.pages.length ?? 0;
 

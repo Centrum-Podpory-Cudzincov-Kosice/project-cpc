@@ -1,6 +1,7 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Language} from "@cpc/languages";
+import stringToLanguage from "../utils/mappers/stringToLanguage";
 
 const LanguageContext = createContext<{
     lang: Language,
@@ -12,7 +13,7 @@ const LanguageContext = createContext<{
 export default function LanguageProvider({children}: {children: ReactNode}) {
     const { i18n } = useTranslation();
     const currentLanguage = i18n.language.toLowerCase().slice(0, 2);
-    const [lang, setLang] = useState<Language>(currentLanguage);
+    const [lang, setLang] = useState<Language>(stringToLanguage(currentLanguage));
     const [isChanging, setIsLangChanging] = useState(false);
 
     useEffect(() => {
