@@ -103,3 +103,28 @@
 .addNewButton svg:hover {
     fill: #b5b5b5;
 }
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin: 2em;
+    color: white;
+}
+
+.pagination button, .currentPage {
+    font-size: 1.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0.7rem;
+    border-radius: 5px;
+    transition: all 0.1s ease-in-out;
+}
+
+.currentPage {
+    background-color: white;
+    color: black;
+    border-radius: 25px;
+}

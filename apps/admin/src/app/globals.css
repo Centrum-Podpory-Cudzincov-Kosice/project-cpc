@@ -73,6 +73,7 @@ button:has(.white-bg) {
   padding: 0.5em 2em;
   cursor: pointer;
   border: 1px solid black;
+  border-radius: 25px;
   transition: all 0.2s ease-in-out;
 
   background-color: var(--white);

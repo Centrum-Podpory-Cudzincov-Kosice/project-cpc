@@ -23,7 +23,7 @@ export default function ArticleCard({article, lang, isLast, currentPage}: {
         [article, lang]
     );
 
-    if (!text || !title) return <></>;
+    if (!text || !title || !article.id) return <></>;
 
     const separateText = text.length > MAX_DESCRIPTION_LENGTH;
 
