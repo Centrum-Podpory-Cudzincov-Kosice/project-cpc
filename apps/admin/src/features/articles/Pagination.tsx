@@ -7,23 +7,43 @@ export default function Pagination({currentPage, totalPages, onPageChange}: {
 }) {
     if (totalPages < 2) return null;
 
-    console.log(currentPage, totalPages);
+    let start = Math.max(1, currentPage - 1);
+
+    if (currentPage <= 2) {
+        start = 1;
+    } else if (currentPage >= totalPages - 1) {
+        start = totalPages - 2;
+    }
+
+    const pages = Array.from({length: 3}, (_, i) => start + i)
+        .filter(page => page >= 1 && page <= totalPages);
 
     return (
         <div className={styles.pagination}>
-            {currentPage > 1 && (
-                <button onClick={() => onPageChange(currentPage - 1)}>
-                    {currentPage - 1}
+            {start > 1 && (
+                <button onClick={() => onPageChange(1)}>
+                    ...
                 </button>
             )}
 
-            <span className={styles.currentPage}>
-                {currentPage}
-            </span>
+            {pages.map(page =>
+                page === currentPage ? (
+                    <span key={page} className={styles.currentPage}>
+                        {page}
+                    </span>
+                ) : (
+                    <button
+                        key={page}
+                        onClick={() => onPageChange(page)}
+                    >
+                        {page}
+                    </button>
+                )
+            )}
 
-            {currentPage < totalPages && (
-                <button onClick={() => onPageChange(currentPage + 1)}>
-                    {currentPage + 1}
+            {start + 2 < totalPages && (
+                <button onClick={() => onPageChange(totalPages)}>
+                    ...
                 </button>
             )}
         </div>
