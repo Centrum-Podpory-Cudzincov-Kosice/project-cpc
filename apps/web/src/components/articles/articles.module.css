@@ -104,7 +104,12 @@
     border-color: var(--accent);
 }
 
+
 .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     margin-bottom: 1em;
 }
 
@@ -114,10 +119,13 @@
     border: none;
     cursor: pointer;
     padding: 0.3rem 0.7rem;
-    margin: auto 0.25rem;
 }
 
-.pagination button:hover,
+.pagination .paginationArrow {
+    padding: 0.3rem 0.8rem;
+}
+
+.pagination button:hover:not(:disabled),
 .pagination .active:hover {
     background-color: #8691a0;
     border-radius: 30px;
@@ -126,6 +134,11 @@
 
 .pagination .active {
     color: var(--main-blue);
+}
+
+.pagination button:disabled {
+    opacity: 0.3;
+    cursor: default;
 }
 
 .hidden {

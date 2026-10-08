@@ -1,27 +1,63 @@
 import styles from "./articles.module.css";
 import clsx from "clsx";
 
-export default function Pagination({curr, selectFn, total}: {
-    curr: number,
-    selectFn: (index: number) => void,
-    total: number,
+export default function Pagination({
+                                       curr,
+                                       selectFn,
+                                       total,
+                                   }: {
+    curr: number;
+    selectFn: (index: number) => void;
+    total: number;
 }) {
+    const getPages = () => {
+        if (total <= 3) {
+            return Array.from({length: total}, (_, i) => i + 1);
+        }
+
+        if (curr === 1) {
+            return [1, 2, 3];
+        }
+
+        if (curr === total) {
+            return [total - 2, total - 1, total];
+        }
+
+        return [curr - 1, curr, curr + 1];
+    };
+
     return (
         <div className={styles.pagination}>
-            {Array
-                .from({length: total}, (_, i) => i + 1)
-                .map((_, i) => {
-                        return (
-                            <button key={i}
-                                    onClick={() => selectFn(i + 1)}
-                                    className={clsx(curr === i + 1 ? styles.active : "", "not-selectable")}
-                            >
-                                {i + 1}
-                            </button>
-                        );
-                    }
-                )
-            }
+            <button
+                onClick={() => selectFn(curr - 1)}
+                disabled={curr === 1}
+                aria-label={"Previous page"}
+                className={clsx(styles.paginationArrow, "not-selectable")}
+            >
+                ‹
+            </button>
+
+            {getPages().map((page) => (
+                <button
+                    key={page}
+                    onClick={() => selectFn(page)}
+                    className={clsx(
+                        curr === page ? styles.active : "",
+                        "not-selectable"
+                    )}
+                >
+                    {page}
+                </button>
+            ))}
+
+            <button
+                onClick={() => selectFn(curr + 1)}
+                disabled={curr === total}
+                aria-label={"Next page"}
+                className={clsx(styles.paginationArrow, "not-selectable")}
+            >
+                ›
+            </button>
         </div>
     );
 }
