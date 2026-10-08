@@ -1,6 +1,9 @@
-import { ArticleType } from "@cpc/article-system";
-import {ArticleEditorImage, ArticleEditorState} from "@/features/article/types";
-import { Language } from "@cpc/languages";
+import {ArticleType} from "@cpc/article-system";
+import {Language} from "@cpc/languages";
+import {
+    ArticleEditorImage,
+    ArticleEditorState
+} from "@/features/article/types";
 
 export type Action =
     | {
@@ -22,16 +25,28 @@ export type Action =
     value: ArticleType,
 }
     | {
-    type: "SET_IMAGES",
-    value: ArticleEditorImage[],
-}
-    | {
-    type: "REMOVE_IMAGE",
+    type: "SET_CURRENT_IMAGE",
     index: number,
 }
     | {
+    type: "SELECT_IMAGE",
+}
+    | {
+    type: "UNSELECT_IMAGE",
+}
+    | {
+    type: "ADD_IMAGE",
+    value: ArticleEditorImage,
+}
+    | {
+    type: "UPDATE_IMAGE",
+    value: ArticleEditorImage,
+}
+    | {
+    type: "REMOVE_IMAGE",
+}
+    | {
     type: "MOVE_IMAGE",
-    from: number,
     to: number,
 }
     | {
@@ -41,4 +56,4 @@ export type Action =
     | {
     type: "RESET",
     value: ArticleEditorState,
-}
+};

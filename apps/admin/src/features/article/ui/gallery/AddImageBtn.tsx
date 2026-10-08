@@ -3,21 +3,21 @@
 import styles from "./article.gallery.module.css";
 import {useImageUpload} from "@/features/article/hooks/useImageUpload";
 
-export default function AddImageWindow() {
+export default function AddImageBtn() {
     const uploadHandler = useImageUpload();
 
     return (
-        <div className={styles.addImgWindow}>
+        <div className={styles.addImgBtn}>
             <input
                 className={styles.addImgInput}
-                id={"window-upload-image"}
+                id={"article-image-upload"}
                 type={"file"}
                 accept={"image/*"}
                 onChange={uploadHandler}
             />
 
-            <label htmlFor={"window-upload-image"}>
-                <p>Pridať obrazok</p>
+            <label htmlFor={"article-image-upload"}>
+                Pridať obrazok
             </label>
         </div>
     );

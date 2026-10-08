@@ -1,9 +1,22 @@
 import {ArticleType} from "@cpc/article-system";
 import {Language} from "@cpc/languages";
+import {Point} from "react-easy-crop";
 
-export type ArticleEditorImage = {
-    src: string;
-    file: File | null;
+export interface ArticleEditorImage {
+    id: string,
+
+    original: {
+        src: string,
+        file?: File,
+    },
+
+    preview: {
+        src: string,
+        file?: File,
+    },
+
+    crop: Point,
+    zoom: number
 }
 
 export type ArticleEditorState = {
@@ -19,5 +32,7 @@ export type ArticleEditorState = {
         string
     >,
     images: ArticleEditorImage[],
+    currentImage: number,
+    imageSelected: boolean,
     published: boolean
 }

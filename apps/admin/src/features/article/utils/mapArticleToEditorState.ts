@@ -1,5 +1,6 @@
 import {ArticleEditorState} from "@/features/article/types";
 import {MultilingualArticle} from "@cpc/article-system";
+import {getImageId} from "@/lib/utils/getImageId";
 
 export const mapArticleToEditorState = (
     article: MultilingualArticle
@@ -19,9 +20,23 @@ export const mapArticleToEditorState = (
     },
     images: (article.images ?? []).map(
         (src: string) => ({
-            src,
-            file: null,
+            id: getImageId(src),
+
+            original: {
+                src,
+                file: undefined,
+            },
+
+            preview: {
+                src,
+                file: undefined,
+            },
+
+            crop: {x: 0, y: 0},
+            zoom: 1
         })
     ),
+    currentImage: 0,
+    imageSelected: false,
     published: article.published,
 });

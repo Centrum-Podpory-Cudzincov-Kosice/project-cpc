@@ -1,27 +1,41 @@
 "use client";
 
-import ArticleCropper from "@/features/article/ui/gallery/ArticleCropper";
+import ImageCropper from "@/features/article/ui/gallery/ImageCropper";
 import AddImageWindow from "@/features/article/ui/gallery/AddImageWindow";
-import {useState} from "react";
 import {Gallery} from "@cpc/article-system";
-import {useArticleEditor} from "@/app/providers/ArticleEditorProvider";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
+import GalleryWrapper from "@/features/article/ui/gallery/GalleryWrapper";
+import AddImageBtn from "@/features/article/ui/gallery/AddImageBtn";
 
 export default function GalleryEditor() {
-    const {article} = useArticleEditor();
-    const images = article.images;
+    const {article, setCurrentImage} = useArticleEditor();
 
-    const [selected, setSelected] = useState<number | null>(null);
+    const images = article.images;
 
     return images.length > 0 ? (
         <div>
-            {selected !== null ? (
-                <ArticleCropper img={images[selected].src}
-                                index={selected}
+            <AddImageBtn/>
+
+            {article.imageSelected ? (
+                <Gallery
+                    images={images.map(
+                        image => image.original.src
+                    )}
+                    currentIndex={article.currentImage}
+                    setCurrImg={setCurrentImage}
+                    viewport={<ImageCropper/>}
                 />
             ) : (
-                <Gallery images={article.images.map(
-                    image => image.src
-                )}/>
+                <Gallery
+                    images={images.map(
+                        image => image.preview.src
+                    )}
+                    currentIndex={article.currentImage}
+                    setCurrImg={setCurrentImage}
+                    overlay={
+                        <GalleryWrapper/>
+                    }
+                />
             )}
         </div>
     ) : (

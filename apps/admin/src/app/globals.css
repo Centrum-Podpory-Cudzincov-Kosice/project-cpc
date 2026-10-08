@@ -1,4 +1,4 @@
-:root {
+primaryBtn:root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -10,13 +10,13 @@
   }
 }
 
-@property --bg-main {
+@property --black {
   syntax: "<color>";
   inherits: false;
   initial-value: #0a0a0a;
 }
 
-@property --text-main {
+@property --white {
   syntax: "<color>";
   inherits: false;
   initial-value: #ededed;
@@ -57,11 +57,11 @@ body {
 
 body:has(.white-bg) {
   background-color: #ffffff;
-  color: var(--bg-main);
+  color: var(--black);
 }
 
 button:has(.white-bg) {
-  color: var(--bg-main);
+  color: var(--black);
 }
 
 * {
@@ -72,14 +72,18 @@ button:has(.white-bg) {
   font-size: 1.1rem;
   padding: 0.5em 2em;
   cursor: pointer;
-  border: 1px solid var(--text-main);
-  background-color: var(--bg-main);
+  border: 1px solid black;
+  border-radius: 25px;
   transition: all 0.2s ease-in-out;
+
+  background-color: var(--white);
+  color: var(--black);
 }
 
 .primaryBtn:hover {
-  background-color: var(--text-main);
-  color: var(--bg-main);
+  border: 1px solid var(--white);
+  background-color: var(--black);
+  color: var(--white);
 }
 
 .pageCenter {

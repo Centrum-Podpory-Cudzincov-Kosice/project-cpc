@@ -2,7 +2,7 @@
 
 import styles from "./article.text.module.css";
 import DatePicker from "react-datepicker";
-import {useArticleEditor} from "@/app/providers/ArticleEditorProvider";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 
 export default function DateField() {
     const {article, setDate} = useArticleEditor();

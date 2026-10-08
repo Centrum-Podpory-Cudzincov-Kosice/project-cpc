@@ -2,8 +2,8 @@
 
 import styles from "./article.text.module.css";
 import {ChangeEvent, useEffect, useRef} from "react";
-import {useLanguage} from "@/app/providers/LanguageProvider";
-import {useArticleEditor} from "@/app/providers/ArticleEditorProvider";
+import {useLanguage} from "@/features/providers/LanguageProvider";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 
 export default function TitleEditor() {
     const {article, setTitle} = useArticleEditor();

@@ -83,7 +83,7 @@ export default function LoginForm() {
                 className={styles.loginBtn}
                 disabled={isSubmitting}
             >
-                Login
+                Prihlásiť sa
             </button>
         </form>
     );

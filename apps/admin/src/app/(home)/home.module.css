@@ -1,12 +1,12 @@
 .adminBtn {
     font-size: 1.5rem;
     padding: 0.5em 2em;
-    border: 1px solid var(--text-main);
+    border: 1px solid var(--white);
     text-decoration: none;
-    color: var(--text-main);
+    color: var(--white);
 }
 
 .adminBtn:hover {
-    background-color: var(--text-main);
-    color: var(--bg-main);
+    background-color: var(--white);
+    color: var(--black);
 }

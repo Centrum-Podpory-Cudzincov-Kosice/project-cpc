@@ -1,29 +1,25 @@
 "use client";
 
 import styles from "./article.text.module.css";
-import {useLanguage} from "@/app/providers/LanguageProvider";
-import {useArticleEditor} from "@/app/providers/ArticleEditorProvider";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
+import {useRouter} from "next/navigation";
 
 export function SaveBtn() {
-    const {lang} = useLanguage();
-
-    const {saveArticle} = useArticleEditor();
+    const {article, createArticle, updateArticle} = useArticleEditor();
+    const {push} = useRouter();
 
     const handleSave = async () => {
-        await saveArticle(lang);
-    };
+        try {
+            if (article.id) {
+                await updateArticle();
+            } else {
+                await createArticle();
+            }
 
-    let uploadBtnText;
-
-    switch (lang) {
-        case "en":
-            uploadBtnText = "Upload";
-            break;
-        case "uk":
-            uploadBtnText = "Зберегти";
-            break;
-        default:
-            uploadBtnText = "Uložiť";
+            push("/articles");
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     return (
@@ -32,7 +28,7 @@ export function SaveBtn() {
             className={styles.saveBtn}
             onClick={handleSave}
         >
-            {uploadBtnText}
+            Uložiť
         </button>
     );
 }

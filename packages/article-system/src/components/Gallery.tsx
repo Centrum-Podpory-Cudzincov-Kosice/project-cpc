@@ -4,50 +4,114 @@ import styles from "./article-system.module.css";
 import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 import useEmblaCarousel from "embla-carousel-react";
 import clsx from "clsx";
-import GalleryLoading from "./skeletons/GalleryLoading";
-import {useImgPreload} from "@cpc/hooks";
+import {ReactNode, useEffect, useRef} from "react";
 
-export function Gallery({images}: {
-    images: string[]
+export function Gallery({images, currentIndex = 0, setCurrImg, overlay, viewport}: {
+    images: string[],
+    currentIndex?: number,
+    setCurrImg?: (index: number) => void,
+    overlay?: ReactNode,
+    viewport?: ReactNode,
 }) {
+    const previousImages = useRef<string[]>(images);
+
     const [emblaRef, emblaApi] = useEmblaCarousel({
-        dragFree: true,
         loop: true,
         containScroll: "trimSnaps",
+        watchDrag: !viewport,
+        dragFree: false,
     });
 
-    const preloaded = useImgPreload(images);
+    useEffect(() => {
+        if (!emblaApi) return;
 
-    if (!preloaded) return <GalleryLoading/>;
+        const imagesChanged =
+            previousImages.current.length !== images.length ||
+            previousImages.current.some(
+                (image, index) => image !== images[index]
+            );
 
-    const isOneImg = images.length === 1;
+        if (!imagesChanged) return;
+
+        previousImages.current = images;
+
+        emblaApi.reInit();
+        emblaApi.scrollTo(currentIndex, true);
+    }, [emblaApi, images, currentIndex]);
+
+    useEffect(() => {
+        if (!emblaApi || !setCurrImg) return;
+
+        const handleSelect = () => {
+            setCurrImg(emblaApi.selectedScrollSnap());
+        };
+
+        handleSelect();
+
+        emblaApi.on("select", handleSelect);
+
+        return () => {
+            emblaApi.off("select", handleSelect);
+        };
+    }, [emblaApi, setCurrImg]);
+
+    const showArrows = images.length > 1;
+    const arrowsDisabled = viewport !== undefined;
+
+    const handlePrev = () => {
+        if (arrowsDisabled) return;
+
+        emblaApi?.scrollPrev();
+    };
+
+    const handleNext = () => {
+        if (arrowsDisabled) return;
+
+        emblaApi?.scrollNext();
+    };
 
     return (
         <div>
             <div className={clsx(styles.gallery, "not-selectable")}>
-                {!isOneImg && emblaApi?.canScrollPrev() && (
+                {showArrows && (
                     <IoIosArrowBack
-                        className={styles.galleryIcon}
-                        onClick={() => emblaApi.scrollPrev()}
+                        className={clsx(
+                            styles.galleryIcon,
+                            {[styles.disabled]: arrowsDisabled}
+                        )}
+                        onClick={handlePrev}
                     />
                 )}
 
-                <div className={styles.carousel} ref={emblaRef}>
+                <div className={styles.carousel}
+                     ref={emblaRef}
+                >
                     <div className={styles.wrapper}>
-                        {images.map((img, index) => (
-                            <img className={styles.image}
-                                 key={index}
-                                 src={img}
-                                 alt={""}
-                            />
+                        {images.map((src, index) => (
+                            <div key={index}
+                                 className={styles.slide}
+                            >
+                                {viewport ? (
+                                    viewport
+                                ) : (
+                                    <img src={src}
+                                         alt={""}
+                                         className={styles.image}
+                                    />
+                                )}
+                            </div>
                         ))}
                     </div>
+                    {overlay}
                 </div>
 
-                {!isOneImg && emblaApi?.canScrollNext() && (
+                {showArrows && (
                     <IoIosArrowForward
-                        className={styles.galleryIcon}
-                        onClick={() => emblaApi.scrollNext()}
+                        className={clsx(
+                            styles.galleryIcon,
+                            {[styles.disabled]: arrowsDisabled}
+                        )}
+                        onClick={handleNext}
                     />
                 )}
             </div>

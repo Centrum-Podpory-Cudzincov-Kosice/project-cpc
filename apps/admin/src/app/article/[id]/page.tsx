@@ -1,10 +1,10 @@
 "use client";
 
-import styles from "./../../../features/article/article.module.css";
+import styles from "../../../features/article/article.module.css";
 import {useParams} from "next/navigation";
 import {ArticleLoading} from "@cpc/article-system";
 import Article from "@/features/article/ui/Article";
-import {useArticleEditor} from "@/app/providers/ArticleEditorProvider";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 import {useEffect} from "react";
 
 export default function ArticlePage() {

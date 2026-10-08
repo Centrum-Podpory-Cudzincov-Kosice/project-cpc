@@ -6,11 +6,10 @@ import StarterKit from "@tiptap/starter-kit";
 import {marked} from "marked";
 import TurndownService from "turndown";
 import {useEffect} from "react";
-
 import {SaveBtn} from "@/features/article/ui/text/SaveBtn";
 import EditorPanel from "@/features/article/ui/text/EditorPanel";
-import {useLanguage} from "@/app/providers/LanguageProvider";
-import {useArticleEditor} from "@/app/providers/ArticleEditorProvider";
+import {useLanguage} from "@/features/providers/LanguageProvider";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 import clsx from "clsx";
 
 const turndown = new TurndownService({
@@ -21,7 +20,7 @@ const turndown = new TurndownService({
 turndown.addRule("paragraph", {
     filter: "p",
     replacement(content: string): string {
-        return `\n\n${content.trim()}\n\n`;
+        return `\n${content.trim()}\n`;
     },
 });
 
@@ -42,7 +41,13 @@ export default function TipTapEditorContent() {
     const isEmpty = !selectedText;
 
     const editor = useEditor({
-        extensions: [StarterKit],
+        extensions: [
+            StarterKit.configure({
+                trailingNode: {
+                    notAfter: ["paragraph", "heading"],
+                },
+            }),
+        ],
 
         content: selectedText
             ? marked.parse(selectedText)
@@ -73,11 +78,13 @@ export default function TipTapEditorContent() {
     return (
         <div>
             <EditorPanel editor={editor}/>
+
             <div className={clsx(
-                isEmpty && styles.editorEmpty
+                isEmpty ? styles.editorEmpty : styles.contentContainer
             )}>
                 <EditorContent editor={editor}/>
             </div>
+
             <SaveBtn/>
         </div>
     );

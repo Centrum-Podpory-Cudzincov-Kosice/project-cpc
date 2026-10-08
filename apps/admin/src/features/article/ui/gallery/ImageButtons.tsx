@@ -1,64 +1,69 @@
 "use client";
 
-import axios from "axios";
 import styles from "./article.gallery.module.css";
-import {getCroppedImg} from "@/lib/utils/getCroppedImage";
-import {Area} from "react-easy-crop";
-import {useParams} from "next/navigation";
+import {ChangeEvent, useRef} from "react";
+import ImageNavigation from "@/features/article/ui/gallery/ImageNavigation";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 
-export default function ImageButtons({img, index, croppedAreaPixels}: {
-    img: string,
-    index: number,
-    croppedAreaPixels: Area | null
+export default function ImageButtons({changeImage, saveChanges}: {
+    changeImage: (file: File) => void,
+    saveChanges: () => void,
 }) {
+    const {article, unselectImage, removeImage} = useArticleEditor();
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const handleChange = (
+        e: ChangeEvent<HTMLInputElement>
+    ) => {
+        const file = e.target.files?.[0];
+
+        if (!file) return;
+
+        changeImage(file);
+        e.target.value = "";
+    }
+
+    const handleDelete = () => {
+        if (!article.imageSelected) return;
+        removeImage();
+        unselectImage();
+    }
+
     return (
-        <div className={styles.imageButtons}>
-            <ChangeButton/>
-            <SaveBtn img={img}
-                     index={index}
-                     croppedAreaPixels={croppedAreaPixels}
+        <>
+            <input
+                ref={inputRef}
+                hidden
+                type={"file"}
+                accept={"image/*"}
+                onChange={handleChange}
             />
-        </div>
-    );
-}
 
-const SaveBtn = ({img, index, croppedAreaPixels}: {
-    img: string,
-    index: number,
-    croppedAreaPixels: Area | null
-}) => {
-    const params = useParams();
-    const articleId = params.id as string;
+            <div className={styles.imageButtons}>
+                <div>
+                    <button onClick={unselectImage}>
+                        Zrušiť
+                    </button>
+                </div>
 
-    const handleSave = async () => {
-        try {
-            if (!croppedAreaPixels) return;
+                {article.images.length > 1 && <ImageNavigation/>}
 
-            const croppedImage = await getCroppedImg(img, croppedAreaPixels);
+                <div className={styles.changingButtons}>
+                    <button onClick={handleDelete}>
+                        Vymazať
+                    </button>
 
-            const formData = new FormData();
-            formData.append("file", croppedImage);
-            formData.append("index", index.toString());
+                    <button onClick={() =>
+                        inputRef.current?.click()}
+                    >
+                        Zmeniť
+                    </button>
 
-            axios.post(`/api/articles/${articleId}/images`, {
-                formData
-            });
-        } catch (e) {
-            console.error(e);
-        }
-    };
-
-    return (
-        <button onClick={handleSave}>
-            Uložiť
-        </button>
-    );
-}
-
-const ChangeButton = () => {
-    return (
-        <button>
-            Zmeniť
-        </button>
+                    <button onClick={saveChanges}>
+                        Uložiť
+                    </button>
+                </div>
+            </div>
+        </>
     );
 }

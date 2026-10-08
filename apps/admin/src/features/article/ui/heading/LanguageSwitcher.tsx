@@ -3,7 +3,7 @@
 import styles from "../../article.module.css";
 import clsx from "clsx";
 import Image from "next/image";
-import {useLanguage} from "@/app/providers/LanguageProvider";
+import {useLanguage} from "@/features/providers/LanguageProvider";
 import {languages} from "@cpc/languages";
 
 export default function LanguageSwitcher() {

@@ -1,69 +1,46 @@
-import styles from "@/features/article/article.module.css";
-import {useCallback, useEffect, useRef, useState} from "react";
+import styles from "@/features/article/ui/gallery/article.gallery.module.css";
+import {Point} from "react-easy-crop";
+import {ChangeEvent} from "react";
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 3;
 
-function clamp(value: number, min: number, max: number) {
-    return Math.min(Math.max(value, min), max);
-}
-
-export default function ZoomBar({zoom, setZoom}: {
+export default function ZoomBar({zoom, setZoom, crop, setCrop}: {
     zoom: number,
-    setZoom: (zoom: number) => void
+    setZoom: (zoom: number) => void,
+    crop: Point,
+    setCrop: (crop: Point) => void,
 }) {
-    const barRef = useRef<HTMLDivElement | null>(null);
-    const [isDragging, setIsDragging] = useState(false);
+    const progress = ((zoom - MIN_ZOOM) / (MAX_ZOOM - MIN_ZOOM)) * 100;
 
-    const updateZoomFromPosition = useCallback((clientX: number) => {
-        if (!barRef.current) return;
+    const handleZoomChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const newZoom = Number(e.target.value);
 
-        const rect = barRef.current.getBoundingClientRect();
-        const x = clientX - rect.left;
-        const percent = clamp(x / rect.width, 0, 1);
+        const ratio = newZoom / zoom;
 
-        const newZoom = MIN_ZOOM + (MAX_ZOOM - MIN_ZOOM) * percent;
+        setCrop({
+            x: crop.x * ratio,
+            y: crop.y * ratio,
+        });
 
         setZoom(newZoom);
-    }, [setZoom]);
-
-    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-        (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-        setIsDragging(true);
-        updateZoomFromPosition(e.clientX);
     };
-
-    const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-        if (!isDragging) return;
-        updateZoomFromPosition(e.clientX);
-    };
-
-    const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-        setIsDragging(false);
-    };
-
-    useEffect(() => {
-        const up = () => setIsDragging(false);
-        window.addEventListener("pointerup", up);
-        return () => window.removeEventListener("pointerup", up);
-    }, []);
-
-    const progress = (zoom - MIN_ZOOM) / (MAX_ZOOM - MIN_ZOOM);
 
     return (
-        <div className={styles.zoomBar}
-             ref={barRef}
-             onPointerDown={handlePointerDown}
-             onPointerMove={handlePointerMove}
-             onPointerUp={handlePointerUp}
-        >
-            <div className={styles.zoomTrackFill}
-                 style={{width: `${progress * 100}%`}}
-            />
-            <div className={styles.zoomThumb}
-                 style={{left: `${progress * 100}%`}}
-            />
-        </div>
+        <input
+            type="range"
+            min={MIN_ZOOM}
+            max={MAX_ZOOM}
+            step={0.01}
+            value={zoom}
+            onChange={handleZoomChange}
+            className={styles.zoomBar}
+            style={{
+                background: `linear-gradient(to right,
+            #B5DCFF ${progress}%,
+            #a5a5a5 ${progress}%
+        )`
+            }}
+        />
     );
 }

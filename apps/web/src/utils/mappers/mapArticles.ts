@@ -3,7 +3,6 @@ import {ArticleType, MultilingualArticle} from "@cpc/article-system";
 export function mapArticle(article: any): MultilingualArticle {
     return {
         id: article.id,
-        created_at: article.created_at,
         date: article.date,
         type: article.type as ArticleType,
 

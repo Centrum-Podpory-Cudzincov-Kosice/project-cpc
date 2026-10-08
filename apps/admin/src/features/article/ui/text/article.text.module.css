@@ -8,6 +8,10 @@
     margin: 0;
 }
 
+.contentContainer p {
+    margin: 1em 0;
+}
+
 /* TitleEditor */
 
 .titleInput {
@@ -38,12 +42,12 @@
     margin-bottom: 2em;
     padding: 1em 2em;
     gap: 1.25em;
-    border: 1px solid var(--bg-main);
+    border: 1px solid var(--black);
     max-width: fit-content;
 }
 
 .editorPanel button {
-    background-color: var(--bg-main);
+    background-color: var(--black);
     border: 0;
     border-radius: 3px;
     font-size: 0.9rem;
@@ -66,12 +70,12 @@
     margin: 2.5em auto;
     padding: 0.5em 2em;
     cursor: pointer;
-    border: 2px solid var(--bg-main);
-    background-color: var(--bg-main);
+    border: 2px solid var(--black);
+    background-color: var(--black);
     transition: all 0.2s ease-in-out;
 }
 
 .saveBtn:hover {
-    background-color: var(--text-main);
-    color: var(--bg-main);
+    background-color: var(--white);
+    color: var(--black);
 }

@@ -3,7 +3,7 @@
 import styles from "../../article.module.css";
 import clsx from "clsx";
 import {ArticleType} from "@cpc/article-system";
-import {useArticleEditor} from "@/app/providers/ArticleEditorProvider";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 
 export default function ArticlesType() {
     const {article, setType} = useArticleEditor();

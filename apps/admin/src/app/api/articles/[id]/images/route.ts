@@ -96,3 +96,43 @@ export async function DELETE(req: NextRequest) {
         );
     }
 }
+
+export async function PATCH(
+    req: NextRequest,
+    context: { params: Promise<{ id: string }> }
+) {
+    try {
+        const { id: articleId } = await context.params;
+        const { images } = await req.json();
+
+        if (!Array.isArray(images)) {
+            return NextResponse.json(
+                { error: "Invalid images array" },
+                { status: 400 }
+            );
+        }
+
+        const { data, error } = await supabaseAdmin
+            .from("articles")
+            .update({ images })
+            .eq("id", articleId)
+            .select()
+            .single();
+
+        if (error) {
+            return NextResponse.json(
+                { error: error.message },
+                { status: 500 }
+            );
+        }
+
+        return NextResponse.json(data);
+    } catch (error) {
+        console.error("Update failed:", error);
+
+        return NextResponse.json(
+            { error: "Update failed" },
+            { status: 500 }
+        );
+    }
+}

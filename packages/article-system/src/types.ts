@@ -4,8 +4,7 @@ export enum ArticleType {
 }
 
 export type MultilingualArticle = {
-    id: string,
-    created_at: string,
+    id: string | null,
     date: string,
 
     type: ArticleType,

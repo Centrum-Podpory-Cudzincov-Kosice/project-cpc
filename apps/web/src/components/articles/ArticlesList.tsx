@@ -30,7 +30,9 @@ export default function ArticlesList({type}: {
                         total={total}
             />
 
-            <SortedArticles pages={pages} currentPage={currentPage}/>
+            <SortedArticles pages={pages}
+                            currentPage={currentPage}
+            />
 
             <Pagination curr={currentPage}
                         selectFn={setPage}
