@@ -5,13 +5,16 @@ import {MultilingualArticle} from "@cpc/article-system";
 
 const PAGE_SIZE = 4;
 
-export async function getArticlesPageByType(type: string, page: number): Promise<ArticlesPage> {
+export async function getArticlesPageByType(
+    type: string,
+    page: number
+): Promise<ArticlesPage> {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
 
-    const {data, error} = await supabase
+    const {data, error, count} = await supabase
         .from("articles")
-        .select("*")
+        .select("*", {count: "exact"})
         .eq("type", type)
         .eq("published", true)
         .order("date", {ascending: false})
@@ -23,7 +26,7 @@ export async function getArticlesPageByType(type: string, page: number): Promise
 
     return {
         articles: mapArticles(data),
-        nextOffset: data.length === PAGE_SIZE ? page + 1 : undefined,
+        total: Math.ceil((count ?? 0) / PAGE_SIZE),
     };
 }
 

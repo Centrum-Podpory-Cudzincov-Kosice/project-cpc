@@ -1,62 +1,40 @@
-import {InfiniteData, useSuspenseInfiniteQuery} from "@tanstack/react-query";
-import {ArticlesPage} from "../types";
-import {useEffect} from "react";
+import {useQuery} from "@tanstack/react-query";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {getArticlesPageByType} from "../api/articles";
 import {ArticleType} from "@cpc/article-system";
 
-export function useArticlesPage(currentPage: number, type: ArticleType): {
-    pages: ArticlesPage[],
-    setPage: (currentPage: number) => void,
-    loading: boolean,
-    total: number
-} {
+export function useArticlesPage(
+    currentPage: number,
+    type: ArticleType
+) {
     const navigate = useNavigate();
-    const { i18n } = useTranslation();
-    const {data, fetchNextPage, hasNextPage, isFetching} = useSuspenseInfiniteQuery<
-        ArticlesPage,
-        Error,
-        InfiniteData<ArticlesPage>,
-        ["articles", ArticleType, string],
-        number
-    >({
-        queryKey: ["articles", type, i18n.language],
-        queryFn: ({pageParam}) =>
-            getArticlesPageByType(type, pageParam),
-        initialPageParam: 1,
-        getNextPageParam: lastPage => lastPage.nextOffset,
+    const {i18n} = useTranslation();
+
+    const {data, isLoading, isFetching} = useQuery({
+        queryKey: ["articles", type, i18n.language, currentPage],
+        queryFn: () => getArticlesPageByType(type, currentPage),
     });
-
-    const pagesLoaded = data?.pages.length ?? 0;
-
-    useEffect(() => {
-        if (currentPage > pagesLoaded && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [currentPage, pagesLoaded, hasNextPage, fetchNextPage]);
-
-    const total = hasNextPage
-        ? (data?.pages.length ?? 1) + 1
-        : data?.pages.length ?? 1;
 
     const setPage = (page: number) => {
         switch (type) {
             case ArticleType.EVENT:
                 navigate(`/events?page=${page}`);
                 break;
+
             case ArticleType.NEWS:
                 navigate(`/news?page=${page}`);
                 break;
+
             default:
                 throw new Error("Invalid article type");
         }
     };
 
     return {
-        pages: data?.pages,
+        pageArticles: data?.articles ?? [],
         setPage,
-        loading: isFetching,
-        total
+        loading: isLoading || isFetching,
+        total: data?.total ?? 0,
     };
 }
