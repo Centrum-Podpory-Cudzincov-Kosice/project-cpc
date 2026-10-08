@@ -1,0 +1,46 @@
+.notificationsContainer {
+    position: fixed;
+    bottom: 1em;
+    left: 1em;
+    z-index: 100;
+
+    background-color: var(--white);
+    padding: 1em 1.5em;
+    border: 2px solid var(--black);
+    border-radius: 12px;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+}
+
+.title {
+    font-size: 1.25em;
+    font-weight: 600;
+    margin: 0.75em 0;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.closeBtn svg {
+    fill: var(--black);
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.messages {
+    list-style: none;
+    margin-top: 1em;
+    padding: 0;
+}
+
+.messages li {
+    margin: 0.4em 0;
+}

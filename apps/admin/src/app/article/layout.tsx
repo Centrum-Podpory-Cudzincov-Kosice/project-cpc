@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import ArticleEditorProvider from "@/features/providers/ArticleEditorProvider";
+import ArticleEditorProvider from "@/app/providers/ArticleEditorProvider";
 
 export default function ArticleLayout({children}: {
     children: ReactNode

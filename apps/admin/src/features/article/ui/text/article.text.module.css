@@ -1,4 +1,5 @@
 /* TipTapEditorContent */
+
 .editorEmpty {
     border: 1px solid #000;
     border-radius: 4px;
@@ -60,22 +61,4 @@
 
 .editorPanel button:hover {
     background-color: #333333;
-}
-
-/* SaveBtn */
-
-.saveBtn {
-    display: block;
-    font-size: 1.1rem;
-    margin: 2.5em auto;
-    padding: 0.5em 2em;
-    cursor: pointer;
-    border: 2px solid var(--black);
-    background-color: var(--black);
-    transition: all 0.2s ease-in-out;
-}
-
-.saveBtn:hover {
-    background-color: var(--white);
-    color: var(--black);
 }

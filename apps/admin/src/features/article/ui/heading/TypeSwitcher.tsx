@@ -5,7 +5,7 @@ import clsx from "clsx";
 import {ArticleType} from "@cpc/article-system";
 import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 
-export default function ArticlesType() {
+export default function TypeSwitcher() {
     const {article, setType} = useArticleEditor();
 
     const type = article.type;

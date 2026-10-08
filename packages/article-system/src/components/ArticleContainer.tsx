@@ -3,8 +3,8 @@
 import styles from "./article-system.module.css";
 import {ReactNode} from "react";
 
-export function ArticleContainer({navigation, gallery, title, date, content}: {
-    navigation: ReactNode,
+export function ArticleContainer({heading, gallery, title, date, content}: {
+    heading: ReactNode,
     gallery: ReactNode,
     title: ReactNode,
     date: ReactNode,
@@ -12,7 +12,7 @@ export function ArticleContainer({navigation, gallery, title, date, content}: {
 }) {
     return (
         <article className={styles.mainContainer}>
-            {navigation}
+            {heading}
 
             <div className={styles.galleryField}>
                 {gallery}

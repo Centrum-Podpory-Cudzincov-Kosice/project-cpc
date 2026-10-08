@@ -62,10 +62,22 @@
 
 .tableRow {
     display: grid;
-    grid-template-columns: 3fr 1fr 1fr;
+    grid-template-columns: 6fr 1fr 1fr 1fr;
     align-items: center;
-    justify-items: start;
-    gap: 4em;
+    justify-items: center;
+    gap: 2em;
+}
+
+.tableRow h3 {
+    justify-self: start;
+}
+
+.published {
+    color: var(--accent);
+}
+
+.draft {
+    color: var(--main-blue);
 }
 
 .tableRow .date {

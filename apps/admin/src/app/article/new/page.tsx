@@ -9,7 +9,7 @@ import GalleryEditor from "@/features/article/ui/gallery/GalleryEditor";
 export default function NewArticlePage() {
     return (
         <ArticleContainer
-            navigation={<EditorHeading/>}
+            heading={<EditorHeading/>}
 
             gallery={<GalleryEditor/>}
 

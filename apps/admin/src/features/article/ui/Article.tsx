@@ -9,7 +9,7 @@ import EditorHeading from "@/features/article/ui/heading/EditorHeading";
 export default function Article() {
     return (
         <ArticleContainer
-            navigation={<EditorHeading/>}
+            heading={<EditorHeading/>}
 
             gallery={<GalleryEditor/>}
 

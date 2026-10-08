@@ -133,6 +133,7 @@
 
 .backBtn {
     cursor: pointer;
+    white-space: nowrap;
     color: var(--main-black);
     border: none;
     background: none;
