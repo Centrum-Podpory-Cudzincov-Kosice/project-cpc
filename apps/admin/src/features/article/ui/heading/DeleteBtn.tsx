@@ -2,7 +2,7 @@
 
 import styles from "../../article.module.css";
 import {FaTrash} from "react-icons/fa";
-import {useArticleEditor} from "@/app/providers/ArticleEditorProvider";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 import {useRouter} from "next/navigation";
 
 export default function DeleteBtn() {

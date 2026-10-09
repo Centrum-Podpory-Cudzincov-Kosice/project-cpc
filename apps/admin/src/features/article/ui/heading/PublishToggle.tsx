@@ -1,5 +1,5 @@
 import styles from "../../article.module.css";
-import {useArticleEditor} from "@/app/providers/ArticleEditorProvider";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 import {useRouter} from "next/navigation";
 
 export default function PublishToggle() {

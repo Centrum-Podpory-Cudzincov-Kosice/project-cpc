@@ -1,7 +1,7 @@
 import ModalPortal from "@/features/article/ui/message-modal/ModalPortal";
 import {MdCancel} from "react-icons/md";
 import styles from "./modal.module.css";
-import {ArticleMessage} from "@/app/providers/ArticleEditorProvider";
+import {ArticleMessage} from "@/features/providers/ArticleEditorProvider";
 
 export default function ArticleMessageModal({message, onClose}: {
     message: ArticleMessage,

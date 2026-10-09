@@ -35,8 +35,6 @@ const ArticleEditorContext = createContext<{
     removeImage: () => void,
     moveImage: (to: number) => void,
 
-    setPublished: (value: boolean) => void,
-
     editExisting: (id: string) => Promise<void>,
     createArticle: () => Promise<void>,
     updateArticle: () => Promise<void>,
@@ -166,15 +164,6 @@ export default function ArticleEditorProvider({children}: {
             dispatch({
                 type: "MOVE_IMAGE",
                 to,
-            });
-        }, []
-    );
-
-    const setPublished = useCallback(
-        (value: boolean) => {
-            dispatch({
-                type: "SET_PUBLISHED",
-                value,
             });
         }, []
     );
@@ -356,8 +345,6 @@ export default function ArticleEditorProvider({children}: {
                 updateImage,
                 removeImage,
                 moveImage,
-
-                setPublished,
 
                 editExisting,
                 createArticle,

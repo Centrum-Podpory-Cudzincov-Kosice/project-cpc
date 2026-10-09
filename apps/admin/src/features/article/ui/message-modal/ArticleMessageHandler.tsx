@@ -1,6 +1,6 @@
 "use client";
 
-import {useArticleEditor} from "@/app/providers/ArticleEditorProvider";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 import ArticleMessageModal from "./ArticleMessageModal";
 
 export default function ArticleMessageHandler() {
