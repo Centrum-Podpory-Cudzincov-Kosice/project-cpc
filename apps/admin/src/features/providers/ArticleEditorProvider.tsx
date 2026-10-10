@@ -16,10 +16,19 @@ import {ArticleEditorImage, ArticleEditorState} from "@/features/article/types";
 import {articleReducer} from "@/features/article/state/reducer";
 import {Language} from "@cpc/languages";
 
+export type ArticleMessage = {
+    type: "error" | "validation",
+    title: string,
+    details?: string[],
+}
+
 const ArticleEditorContext = createContext<{
     article: ArticleEditorState,
     loading: boolean,
     error: string | null,
+
+    message: ArticleMessage | null,
+    setMessage: (message: ArticleMessage | null) => void,
 
     setType: (value: ArticleType) => void,
     setTitle: (lang: Language, value: string) => void,
@@ -73,6 +82,7 @@ export default function ArticleEditorProvider({children}: {
     const [article, dispatch] = useReducer(articleReducer, emptyArticle);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [message, setMessage] = useState<ArticleMessage | null>(null);
 
     const setType = useCallback(
         (value: ArticleType) => {
@@ -175,7 +185,7 @@ export default function ArticleEditorProvider({children}: {
                 setError(null);
 
                 const res = await axios.get(
-                    `/api/articles/${id}`
+                    `/api/admin/articles/${id}`
                 );
 
                 dispatch({
@@ -246,7 +256,7 @@ export default function ArticleEditorProvider({children}: {
             });
 
             const res = await axios.post(
-                "/api/articles", formData
+                "/api/admin/articles", formData
             );
 
             const updatedArticle =
@@ -331,6 +341,9 @@ export default function ArticleEditorProvider({children}: {
                 article,
                 loading,
                 error,
+
+                message,
+                setMessage,
 
                 setType,
                 setTitle,
