@@ -17,19 +17,42 @@ export async function GET(req: Request) {
     const supabase = await createAdminClient();
 
     const {searchParams} = new URL(req.url);
-    const type = searchParams.get("type");
 
-    const {data, error} = await supabase
+    const type = searchParams.get("type");
+    const fromParam = searchParams.get("from");
+
+    const from = fromParam !== null ? Number(fromParam) : 0;
+    const to = from + 4; // Page size: 5
+
+    if (!type) {
+        return Response.json(
+            {error: "Missing type parameter"},
+            {status: 400}
+        );
+    }
+
+    if (!Number.isInteger(from) || from < 0) {
+        return Response.json(
+            {error: "Invalid from parameter"},
+            {status: 400}
+        );
+    }
+
+    const {data, error, count} = await supabase
         .from("articles")
-        .select("id,title_sk,date,type,published")
+        .select("id,title_sk,date,published", {count: "exact"})
         .eq("type", type)
-        .order("date", {ascending: false});
+        .order("date", {ascending: false})
+        .range(from, to);
 
     if (error) {
         return Response.json({error}, {status: 500});
     }
 
-    return Response.json(data);
+    return Response.json({
+        articles: data,
+        total: count,
+    });
 }
 
 export async function POST(req: Request) {
