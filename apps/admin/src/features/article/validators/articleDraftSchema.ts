@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { ArticleType } from "@cpc/article-system";
+import {ArticleType} from "@cpc/article-system";
 
 export const articleDraftSchema = v.object({
     id: v.nullable(v.string()),
