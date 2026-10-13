@@ -309,7 +309,7 @@ export default function ArticleEditorProvider({children}: {
             });
 
             const res = await axios.post(
-                `/api/articles/${article.id}`,
+                `/api/admin/articles/${article.id}`,
                 formData
             );
 
