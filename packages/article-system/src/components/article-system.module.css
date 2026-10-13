@@ -74,6 +74,10 @@
     word-break: break-all;
 }
 
+.textField strong {
+    font-weight: bold;
+}
+
 .readMoreButton {
     text-transform: uppercase;
     padding: 1em 2em;
