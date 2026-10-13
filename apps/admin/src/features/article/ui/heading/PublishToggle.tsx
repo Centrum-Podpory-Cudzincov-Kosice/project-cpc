@@ -15,11 +15,7 @@ export default function PublishToggle() {
     };
 
     const handleUnpublish = async () => {
-        const success = await submitArticle(false);
-
-        if (success) {
-            push("/articles");
-        }
+        await submitArticle(false);
     };
 
     return article.published ? (

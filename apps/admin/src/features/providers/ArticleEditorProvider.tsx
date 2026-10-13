@@ -45,8 +45,7 @@ const ArticleEditorContext = createContext<{
     moveImage: (to: number) => void,
 
     editExisting: (id: string) => Promise<void>,
-    createArticle: () => Promise<void>,
-    updateArticle: () => Promise<void>,
+    submitArticle: (publish?: boolean) => Promise<boolean>,
     resetArticle: () => void,
 } | undefined>(undefined);
 
@@ -215,7 +214,7 @@ export default function ArticleEditorProvider({children}: {
         setError(null);
     }, []);
 
-    const createBaseArticleFormData = () => {
+    const createBaseArticleFormData = (publish?: boolean) => {
         const formData = new FormData();
 
         formData.append("title_sk", article.titles.sk);
@@ -234,14 +233,14 @@ export default function ArticleEditorProvider({children}: {
 
         formData.append("type", article.type);
 
-        formData.append("published", String(article.published));
+        formData.append("published", String(publish ?? article.published));
 
         return formData;
     }
 
     const createArticle = useCallback(
-        async () => {
-            const formData = createBaseArticleFormData();
+        async (publish?: boolean) => {
+            const formData = createBaseArticleFormData(publish);
 
             article.images.forEach((img) => {
                 formData.append(
@@ -282,14 +281,14 @@ export default function ArticleEditorProvider({children}: {
     );
 
     const updateArticle = useCallback(
-        async () => {
+        async (publish?: boolean) => {
             if (!article.id) {
                 throw new Error(
                     "ID for the article is not found"
                 );
             }
 
-            const formData = createBaseArticleFormData();
+            const formData = createBaseArticleFormData(publish);
 
             formData.append("imageIds",
                 JSON.stringify(
@@ -335,6 +334,24 @@ export default function ArticleEditorProvider({children}: {
         }, [article]
     );
 
+    const submitArticle = useCallback(
+        async (publish?: boolean): Promise<boolean> => {
+            try {
+                if (article.id) {
+                    await updateArticle(publish);
+                } else {
+                    await createArticle(publish);
+                }
+
+                return true;
+            } catch (error) {
+                console.error("Failed to submit article:", error);
+                return false;
+            }
+        },
+        [article.id, createArticle, updateArticle]
+    );
+
     return (
         <ArticleEditorContext.Provider
             value={{
@@ -360,8 +377,7 @@ export default function ArticleEditorProvider({children}: {
                 moveImage,
 
                 editExisting,
-                createArticle,
-                updateArticle,
+                submitArticle,
                 resetArticle,
             }}
         >

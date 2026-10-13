@@ -2,24 +2,19 @@
 
 import styles from "../../article.module.css";
 import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
-import {useRouter, usePathname} from "next/navigation";
+import {useRouter} from "next/navigation";
 
 export function SaveBtn() {
-    const {createArticle, updateArticle} = useArticleEditor();
+    const {submitArticle} = useArticleEditor();
     const {push} = useRouter();
-    const pathname = usePathname();
 
     const handleSave = async () => {
         try {
-            if (pathname.endsWith("/new")) {
-                await createArticle();
-            } else {
-                await updateArticle();
-            }
+            const success = await submitArticle();
 
-            push("/articles");
-        } catch (error) {
-            console.error("Failed to save article:", error);
+            if(success) push("/articles");
+        } catch (e) {
+            console.error("Failed to save article:", e);
         }
     };
 
