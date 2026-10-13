@@ -62,6 +62,11 @@ async function createImage(url: string): Promise<HTMLImageElement> {
         image.onload = () => resolve(image);
         image.onerror = () => reject(new Error(`Failed to load image: ${url}`));
 
+        if(url.startsWith("blob:")) {
+            image.src = url;
+            return;
+        }
+
         const separator = url.includes("?") ? "&" : "?";
         image.src = `${url}${separator}crop`;
     });
