@@ -44,9 +44,7 @@ const ArticleEditorContext = createContext<{
     editExisting: (id: string) => Promise<void>,
     submitArticle: (published?: boolean) => Promise<boolean>,
     unpublishArticle: () => Promise<boolean>,
-    deleteArticle: () => Promise<boolean>,
-
-    resetArticle: () => void,
+    deleteArticle: () => Promise<boolean>
 } | undefined>(undefined);
 
 const emptyArticle: ArticleEditorState = {
@@ -286,7 +284,7 @@ export default function ArticleEditorProvider({children}: {
 
             setMessage({
                 type: "success",
-                title: "Článok bol úspešne publikovaný",
+                title: "Článok bol skrytý",
             });
 
             return true;
@@ -295,7 +293,7 @@ export default function ArticleEditorProvider({children}: {
 
             setMessage({
                 type: "error",
-                title: "Článok sa nepodarilo publikovať",
+                title: "Článok sa nepodarilo skryť",
             });
 
             return false;
@@ -321,14 +319,6 @@ export default function ArticleEditorProvider({children}: {
 
             await axios.delete(`/api/admin/articles/${article.id}`);
 
-            dispatch({
-                type: "RESET",
-                value: {
-                    ...emptyArticle,
-                    date: new Date().toISOString(),
-                },
-            });
-
             return true;
         } catch (e) {
             console.error(e);
@@ -342,18 +332,6 @@ export default function ArticleEditorProvider({children}: {
             setLoading(false);
         }
     }, [article.id]);
-
-    const resetArticle = useCallback(() => {
-        dispatch({
-            type: "RESET",
-            value: {
-                ...emptyArticle,
-                date: new Date().toISOString(),
-            },
-        });
-
-        setMessage(null);
-    }, []);
 
     return (
         <ArticleEditorContext.Provider value={{
@@ -379,9 +357,7 @@ export default function ArticleEditorProvider({children}: {
             editExisting,
             submitArticle,
             unpublishArticle,
-            deleteArticle,
-
-            resetArticle
+            deleteArticle
         }}>
             {children}
         </ArticleEditorContext.Provider>

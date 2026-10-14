@@ -19,22 +19,26 @@ export const mapArticleToEditorState = (
         uk: article.description_uk,
     },
     images: (article.images ?? []).map(
-        (src: string) => ({
-            id: getImageId(src),
+        (src: string) => {
+            const refreshedSrc = `${src}${src.includes("?") ? "&" : "?"}t=${Date.now()}`;
 
-            original: {
-                src,
-                file: undefined,
-            },
+            return {
+                id: getImageId(src),
 
-            preview: {
-                src,
-                file: undefined,
-            },
+                original: {
+                    src: refreshedSrc,
+                    file: undefined,
+                },
 
-            crop: {x: 0, y: 0},
-            zoom: 1
-        } as ArticleEditorImage)
+                preview: {
+                    src: refreshedSrc,
+                    file: undefined,
+                },
+
+                crop: {x: 0, y: 0},
+                zoom: 1,
+            } as ArticleEditorImage;
+        }
     ),
     currentImage: 0,
     imageSelected: false,
