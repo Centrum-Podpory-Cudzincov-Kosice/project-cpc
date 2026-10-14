@@ -1,21 +1,29 @@
 import styles from "../../article.module.css";
 import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
-import {useRouter} from "next/navigation";
 
 export default function PublishToggle() {
-    const {article, submitArticle} = useArticleEditor();
-    const {push} = useRouter();
+    const {article, submitArticle, unpublishArticle, setMessage} = useArticleEditor();
 
     const handlePublish = async () => {
         const success = await submitArticle(true);
 
         if (success) {
-            push("/articles");
+            setMessage({
+                type: "success",
+                title: "Článok je publikovaný"
+            });
         }
     };
 
     const handleUnpublish = async () => {
-        await submitArticle(false);
+        const success = await unpublishArticle();
+
+        if (success) {
+            setMessage({
+                type: "success",
+                title: "Článok je skrytý"
+            });
+        }
     };
 
     return article.published ? (

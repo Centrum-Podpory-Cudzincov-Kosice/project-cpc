@@ -2,17 +2,20 @@
 
 import styles from "../../article.module.css";
 import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
-import {useRouter} from "next/navigation";
 
 export function SaveBtn() {
-    const {submitArticle} = useArticleEditor();
-    const {push} = useRouter();
+    const {submitArticle, setMessage} = useArticleEditor();
 
     const handleSave = async () => {
         try {
             const success = await submitArticle();
 
-            if(success) push("/articles");
+            if(success) {
+                setMessage({
+                    type: "success",
+                    title: "Článok je uložený"
+                });
+            }
         } catch (e) {
             console.error("Failed to save article:", e);
         }

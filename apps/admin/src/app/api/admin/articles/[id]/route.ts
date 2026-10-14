@@ -129,6 +129,39 @@ export async function POST(
     return Response.json(data);
 }
 
+export async function PATCH(
+    req: Request,
+    {params}: { params: Promise<{ id: string }> }
+) {
+    const supabase = await createAdminClient();
+    const {id} = await params;
+
+    const {published} = await req.json();
+
+    if (typeof published !== "boolean") {
+        return Response.json(
+            {error: "Invalid published value"},
+            {status: 400}
+        );
+    }
+
+    const {data, error} = await supabase
+        .from("articles")
+        .update({published})
+        .eq("id", id)
+        .select()
+        .single();
+
+    if (error) {
+        return Response.json(
+            {error: error.message},
+            {status: 500}
+        );
+    }
+
+    return Response.json(data);
+}
+
 export async function DELETE(req: Request, {params}: {
     params: Promise<{ id: string }>
 }) {

@@ -7,12 +7,25 @@ export default function ArticleMessageModal({message, onClose}: {
     message: ArticleMessage,
     onClose: () => void,
 }) {
+    let borderColor;
+    switch (message.type) {
+        case "validation":
+            borderColor = "#44005e";
+            break;
+        case "error":
+            borderColor = "#ff0000";
+            break;
+        case "success":
+            borderColor = "#00ff00";
+            break;
+        default:
+            borderColor = "#44005e";
+    }
+
     return (
         <ModalPortal wrapperId={"notification-modal-wrapper"}>
             <div className={styles.notificationsContainer}
-                 style={message.type === "validation"
-                     ? {borderColor: "#44005e"}
-                     : {borderColor: "#ff0000"}}
+                 style={{borderColor: borderColor}}
             >
                 <div className={styles.head}>
                     <h2 className={styles.title}>

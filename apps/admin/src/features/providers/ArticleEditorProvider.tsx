@@ -16,7 +16,7 @@ import {Language} from "@cpc/languages";
 import {validateArticle} from "@/features/article/validators/articleValidator";
 
 export type ArticleMessage = {
-    type: "error" | "validation",
+    type: "error" | "validation" | "success",
     title: string,
     details?: string[],
 }
@@ -43,6 +43,7 @@ const ArticleEditorContext = createContext<{
 
     editExisting: (id: string) => Promise<void>,
     submitArticle: (published?: boolean) => Promise<boolean>,
+    unpublishArticle: () => Promise<boolean>,
     deleteArticle: () => Promise<boolean>,
 
     resetArticle: () => void,
@@ -190,7 +191,7 @@ export default function ArticleEditorProvider({children}: {
 
                 setMessage({
                     type: "validation",
-                    title: "Článok sa nepodarilo načítať",
+                    title: "Článok sa nepodarilo uložiť",
                     details: missing,
                 });
 
@@ -254,6 +255,54 @@ export default function ArticleEditorProvider({children}: {
             setLoading(false);
         }
     }, [article]);
+
+    const unpublishArticle = useCallback(async () => {
+        if (!article.id) {
+            setMessage({
+                type: "error",
+                title: "ID článku nebolo nájdené",
+            });
+
+            return false;
+        }
+
+        if (!article.published) {
+            return true;
+        }
+
+        try {
+            setLoading(true);
+            setMessage(null);
+
+            const res = await axios.patch(
+                `/api/admin/articles/${article.id}`,
+                {published: false}
+            );
+
+            dispatch({
+                type: "RESET",
+                value: mapArticleToEditorState(res.data),
+            });
+
+            setMessage({
+                type: "success",
+                title: "Článok bol úspešne odpublikovaný",
+            });
+
+            return true;
+        } catch (e) {
+            console.error(e);
+
+            setMessage({
+                type: "error",
+                title: "Článok sa nepodarilo odpublikovať",
+            });
+
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    }, [article.id, article.published]);
 
     const deleteArticle = useCallback(async () => {
         setMessage(null);
@@ -329,6 +378,7 @@ export default function ArticleEditorProvider({children}: {
 
             editExisting,
             submitArticle,
+            unpublishArticle,
             deleteArticle,
 
             resetArticle
