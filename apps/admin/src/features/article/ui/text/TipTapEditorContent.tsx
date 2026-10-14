@@ -7,6 +7,7 @@ import {marked} from "marked";
 import TurndownService from "turndown";
 import {useEffect} from "react";
 import EditorPanel from "@/features/article/ui/text/EditorPanel";
+import Link from "@tiptap/extension-link";
 import {useLanguage} from "@/features/providers/LanguageProvider";
 import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 import clsx from "clsx";
@@ -45,6 +46,11 @@ export default function TipTapEditorContent() {
                 trailingNode: {
                     notAfter: ["paragraph", "heading"],
                 },
+            }),
+            Link.configure({
+                openOnClick: false,
+                autolink: true,
+                defaultProtocol: "https",
             }),
         ],
 

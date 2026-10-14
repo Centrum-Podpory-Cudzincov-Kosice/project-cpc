@@ -8,6 +8,17 @@ export default function EditorPanel({editor}: {
 }) {
     if (!editor) return null;
 
+    const addLink = () => {
+        const previousUrl = editor.getAttributes("link").href;
+        const url = window.prompt("Enter URL:", previousUrl);
+        if (url === null) return;
+        if (url.trim() === "") {
+            editor.chain().focus().extendMarkRange("link").unsetLink().run();
+            return;
+        }
+        editor.chain().focus().extendMarkRange("link").setLink({href: url.trim(),}).run();
+    };
+
     return (
         <div className={styles.editorPanel}>
             <button
@@ -51,6 +62,10 @@ export default function EditorPanel({editor}: {
                 editor.chain().focus().toggleOrderedList().run()}
             >
                 Numbered List
+            </button>
+
+            <button type="button" onClick={addLink}>
+                Link
             </button>
         </div>
     );
