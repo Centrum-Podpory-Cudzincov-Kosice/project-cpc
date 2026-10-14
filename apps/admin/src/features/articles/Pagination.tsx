@@ -1,4 +1,5 @@
 import styles from "./articles.module.css";
+import {FaCircle} from "react-icons/fa";
 
 export default function Pagination({currentPage, totalPages, onPageChange}: {
     currentPage: number,
@@ -28,9 +29,13 @@ export default function Pagination({currentPage, totalPages, onPageChange}: {
 
             {pages.map(page =>
                 page === currentPage ? (
-                    <span key={page} className={styles.currentPage}>
-                        {page}
-                    </span>
+                    <div className={styles.currentPage}
+                         key={page}>
+                        <FaCircle/>
+                        <span>
+                            {page}
+                        </span>
+                    </div>
                 ) : (
                     <button
                         key={page}
