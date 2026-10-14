@@ -1,4 +1,4 @@
-import {ArticleEditorState} from "@/features/article/types";
+import {ArticleEditorImage, ArticleEditorState} from "@/features/article/types";
 import {MultilingualArticle} from "@cpc/article-system";
 import {getImageId} from "@/lib/utils/getImageId";
 
@@ -34,7 +34,7 @@ export const mapArticleToEditorState = (
 
             crop: {x: 0, y: 0},
             zoom: 1
-        })
+        } as ArticleEditorImage)
     ),
     currentImage: 0,
     imageSelected: false,

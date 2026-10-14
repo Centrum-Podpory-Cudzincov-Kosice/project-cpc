@@ -58,17 +58,22 @@ export default function ImageCropper() {
         try {
             if (!croppedAreaPixels) return;
 
-            const croppedFile =
-                await getCroppedImg(
-                    img.original.src,
-                    croppedAreaPixels
-                );
+            let croppedFile: File | undefined;
+            if(zoom !== 1 && crop.x === 0 && crop.y === 0) {
+                croppedFile = undefined;
+            } else {
+                croppedFile =
+                    await getCroppedImg(
+                        img.original.src,
+                        croppedAreaPixels
+                    );
+            }
 
             updateImage({
                 ...img,
 
                 preview: {
-                    src: URL.createObjectURL(croppedFile),
+                    src: croppedFile ? URL.createObjectURL(croppedFile) : img.original.src,
                     file: croppedFile,
                 },
 

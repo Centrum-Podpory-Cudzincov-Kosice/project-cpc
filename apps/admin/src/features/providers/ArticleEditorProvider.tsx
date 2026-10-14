@@ -286,7 +286,7 @@ export default function ArticleEditorProvider({children}: {
 
             setMessage({
                 type: "success",
-                title: "Článok bol úspešne odpublikovaný",
+                title: "Článok bol úspešne publikovaný",
             });
 
             return true;
@@ -295,7 +295,7 @@ export default function ArticleEditorProvider({children}: {
 
             setMessage({
                 type: "error",
-                title: "Článok sa nepodarilo odpublikovať",
+                title: "Článok sa nepodarilo publikovať",
             });
 
             return false;

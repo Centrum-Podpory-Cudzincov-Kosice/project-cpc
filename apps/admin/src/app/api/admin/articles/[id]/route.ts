@@ -57,6 +57,12 @@ export async function POST(
         existingById.set(getImageId(url), url);
     });
 
+    const submittedImageIds = new Set(imageIds);
+
+    const removedImages: string[] = existingImages.filter(
+        (url: string) => !submittedImageIds.has(getImageId(url))
+    );
+
     const images: string[] = [];
 
     for (const imageId of imageIds) {
@@ -95,6 +101,21 @@ export async function POST(
 
             images.push(existing);
         }
+
+        await Promise.all(
+            removedImages.map((url) => {
+                const key = decodeURIComponent(
+                    new URL(url).pathname.slice(1)
+                );
+
+                return s3.send(
+                    new DeleteObjectCommand({
+                        Bucket: BUCKET,
+                        Key: key,
+                    })
+                );
+            })
+        );
     }
 
     const {data, error} = await supabase
