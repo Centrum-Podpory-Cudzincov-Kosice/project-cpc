@@ -43,17 +43,19 @@ export function Gallery({images, currentIndex = 0, setCurrImg, overlay, viewport
         if (!emblaApi || !setCurrImg) return;
 
         const handleSelect = () => {
-            setCurrImg(emblaApi.selectedScrollSnap());
-        };
+            const index = emblaApi.selectedScrollSnap();
 
-        handleSelect();
+            if (index !== currentIndex) {
+                setCurrImg(index);
+            }
+        };
 
         emblaApi.on("select", handleSelect);
 
         return () => {
             emblaApi.off("select", handleSelect);
         };
-    }, [emblaApi, setCurrImg]);
+    }, [emblaApi, setCurrImg, currentIndex]);
 
     const showArrows = images.length > 1;
     const arrowsDisabled = viewport !== undefined;

@@ -26,16 +26,20 @@ const ArticleEditorContext = createContext<{
     loading: boolean,
 
     message: ArticleMessage | null,
-    setMessages: (value: ArticleMessage | null) => void,
+    setMessage: (value: ArticleMessage | null) => void,
 
     setType: (value: ArticleType) => void,
     setTitle: (lang: Language, value: string) => void,
     setDescription: (lang: Language, value: string) => void,
     setDate: (value: string) => void,
+
     addImage: (value: ArticleEditorImage) => void,
-    updateImage: (index: number, value: ArticleEditorImage) => void,
-    removeImage: (index: number) => void,
-    moveImage: (from: number, to: number) => void,
+    setCurrentImage: (index: number) => void,
+    updateImage: (value: ArticleEditorImage) => void,
+    removeImage: () => void,
+    moveImage: (to: number) => void,
+    selectImage: () => void,
+    unselectImage: () => void,
 
     editExisting: (id: string) => Promise<void>,
     submitArticle: (published?: boolean) => Promise<boolean>,
@@ -44,7 +48,7 @@ const ArticleEditorContext = createContext<{
     resetArticle: () => void,
 } | undefined>(undefined);
 
-const emptyArticle = {
+const emptyArticle: ArticleEditorState = {
     id: null,
     date: new Date().toDateString(),
 
@@ -63,6 +67,8 @@ const emptyArticle = {
     },
 
     images: [],
+    currentImage: 0,
+    imageSelected: false,
     published: false
 }
 
@@ -71,64 +77,88 @@ export default function ArticleEditorProvider({children}: {
 }) {
     const [article, dispatch] = useReducer(articleReducer, emptyArticle);
     const [loading, setLoading] = useState(false);
-    const [messages, setMessages] = useState<ArticleMessage | null>(null);
+    const [message, setMessage] = useState<ArticleMessage | null>(null);
 
-    const setType = (value: ArticleType) =>
+    const setType = useCallback((value: ArticleType) => {
         dispatch({
             type: "SET_TYPE",
             value,
         });
+    }, []);
 
-    const setTitle = (lang: Language, value: string) =>
+    const setTitle = useCallback((lang: Language, value: string) => {
         dispatch({
             type: "SET_TITLE",
             lang,
             value,
         });
+    }, []);
 
-    const setDescription = (lang: Language, value: string) =>
+    const setDescription = useCallback((lang: Language, value: string) => {
         dispatch({
             type: "SET_DESCRIPTION",
             lang,
             value,
         });
+    }, []);
 
-    const setDate = (value: string) =>
+    const setDate = useCallback((value: string) => {
         dispatch({
             type: "SET_DATE",
             value,
         });
+    }, []);
 
-    const addImage = (value: ArticleEditorImage) =>
+    const addImage = useCallback((value: ArticleEditorImage) => {
         dispatch({
             type: "ADD_IMAGE",
             value,
         });
+    }, []);
 
-    const updateImage = (index: number, value: ArticleEditorImage) =>
+    const setCurrentImage = useCallback((index: number) => {
+        dispatch({
+            type: "SET_CURRENT_IMAGE",
+            index,
+        });
+    }, []);
+
+    const updateImage = useCallback((value: ArticleEditorImage) => {
         dispatch({
             type: "UPDATE_IMAGE",
-            index,
-            value
+            value,
         });
+    }, []);
 
-    const removeImage = (index: number) =>
+    const removeImage = useCallback(() => {
         dispatch({
             type: "REMOVE_IMAGE",
-            index
         });
+    }, []);
 
-    const moveImage = (from: number, to: number) =>
+    const moveImage = useCallback((to: number) => {
         dispatch({
             type: "MOVE_IMAGE",
-            from,
-            to
+            to,
         });
+    }, []);
+
+    const selectImage = useCallback(() => {
+        dispatch({
+            type: "SELECT_IMAGE",
+        });
+    }, []);
+
+    const unselectImage = useCallback(() => {
+        dispatch({
+            type: "UNSELECT_IMAGE",
+        });
+    }, []);
 
     const editExisting = useCallback(async (id: string) => {
         try {
             setLoading(true);
-            setMessages(null);
+            setMessage(null);
 
             const res = await axios.get(`/api/admin/articles/${id}`);
 
@@ -139,7 +169,7 @@ export default function ArticleEditorProvider({children}: {
         } catch (e) {
             console.error(e);
 
-            setMessages({
+            setMessage({
                 type: "error",
                 title: "Článok sa nepodarilo načítať",
             });
@@ -151,14 +181,14 @@ export default function ArticleEditorProvider({children}: {
     const submitArticle = useCallback(async (published = article.published) => {
         try {
             setLoading(true);
-            setMessages(null);
+            setMessage(null);
 
             const validation = validateArticle(article, published);
 
             if (!validation.success) {
                 const missing = validation.issues.map(issue => issue.message);
 
-                setMessages({
+                setMessage({
                     type: "validation",
                     title: "Článok sa nepodarilo načítať",
                     details: missing,
@@ -212,7 +242,7 @@ export default function ArticleEditorProvider({children}: {
         } catch (e) {
             console.error(e);
 
-            setMessages({
+            setMessage({
                 type: "error",
                 title: article.id
                     ? "Článok sa nepodarilo upraviť"
@@ -226,10 +256,10 @@ export default function ArticleEditorProvider({children}: {
     }, [article]);
 
     const deleteArticle = useCallback(async () => {
-        setMessages(null);
+        setMessage(null);
 
         if (!article.id) {
-            setMessages({
+            setMessage({
                 type: "error",
                 title: "ID článku nebolo nájdené"
             });
@@ -253,7 +283,7 @@ export default function ArticleEditorProvider({children}: {
             return true;
         } catch (e) {
             console.error(e);
-            setMessages({
+            setMessage({
                 type: "error",
                 title: "Článok sa nepodarilo odstrániť"
             });
@@ -273,7 +303,7 @@ export default function ArticleEditorProvider({children}: {
             },
         });
 
-        setMessages(null);
+        setMessage(null);
     }, []);
 
     return (
@@ -281,17 +311,21 @@ export default function ArticleEditorProvider({children}: {
             article,
             loading,
 
-            message: messages,
-            setMessages,
+            message,
+            setMessage,
 
             setType,
             setTitle,
             setDescription,
             setDate,
+
             addImage,
+            setCurrentImage,
             removeImage,
             updateImage,
             moveImage,
+            selectImage,
+            unselectImage,
 
             editExisting,
             submitArticle,

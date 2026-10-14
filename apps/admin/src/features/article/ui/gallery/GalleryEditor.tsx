@@ -23,7 +23,9 @@ export default function GalleryEditor() {
                     )}
                     currentIndex={article.currentImage}
                     setCurrImg={setCurrentImage}
-                    viewport={<ImageCropper/>}
+                    viewport={
+                        <ImageCropper/>
+                    }
                 />
             ) : (
                 <Gallery
