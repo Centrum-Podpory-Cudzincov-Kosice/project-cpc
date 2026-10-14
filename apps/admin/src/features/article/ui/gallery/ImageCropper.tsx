@@ -59,14 +59,16 @@ export default function ImageCropper() {
             if (!croppedAreaPixels) return;
 
             let croppedFile: File | undefined;
-            if(zoom !== 1 && crop.x === 0 && crop.y === 0) {
+            if (zoom !== 1
+                && crop.x === 0
+                && crop.y === 0
+                && !img.preview.file) {
                 croppedFile = undefined;
             } else {
-                croppedFile =
-                    await getCroppedImg(
-                        img.original.src,
-                        croppedAreaPixels
-                    );
+                croppedFile = await getCroppedImg(
+                    img.original.src,
+                    croppedAreaPixels
+                );
             }
 
             updateImage({
