@@ -40,7 +40,7 @@ export default function Article({articleData, type}: {
 
     return (
         <ArticleContainer
-            navigation={
+            heading={
                 <button className={styles.backBtn}
                         onClick={backHandler}>
                     ← &nbsp;{t("backBtn")}
