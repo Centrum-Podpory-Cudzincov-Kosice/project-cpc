@@ -16,7 +16,7 @@ export default function ArticlesList({type}: {
     if (isNaN(currentPage)) throw new Error("Page not found");
 
     const {i18n} = useTranslation();
-    const lang = i18n.language;
+    const lang = i18n.language.toLowerCase().slice(0, 2);
 
     const {pageArticles, setPage, loading, total} = useArticlesPage(currentPage, type);
 
