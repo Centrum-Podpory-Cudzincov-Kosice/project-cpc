@@ -5,15 +5,12 @@ import {createClient} from "@/lib/supabase/client";
 import loginSchema, {LoginFormInput} from "@/features/auth/login.schema";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useRouter} from "next/navigation";
 import {useState} from "react";
 import {IoMdEye} from "react-icons/io";
 import {IoMdEyeOff} from "react-icons/io";
 
 export default function LoginForm() {
     const supabase = createClient();
-    const router = useRouter();
-
     const [passwordToggle, setPasswordToggle] = useState<boolean>(false);
 
     const {
@@ -36,8 +33,7 @@ export default function LoginForm() {
             return;
         }
 
-        router.push("/articles");
-        router.refresh();
+        window.location.assign("/articles");
     }
 
     const togglePasswordVisibility = () => {
