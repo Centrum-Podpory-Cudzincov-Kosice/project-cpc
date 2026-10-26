@@ -20,6 +20,8 @@ export default function DeleteBtn() {
 
         if (success) {
             push("/articles");
+        } else {
+            closeModalHandler();
         }
     }
 

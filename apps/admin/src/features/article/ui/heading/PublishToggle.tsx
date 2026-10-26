@@ -18,6 +18,8 @@ export default function PublishToggle() {
                 type: "success",
                 title: "Článok je publikovaný"
             });
+        } else {
+            closeModalHandler();
         }
     };
 
@@ -29,6 +31,8 @@ export default function PublishToggle() {
                 type: "success",
                 title: "Článok je skrytý"
             });
+        } else {
+            closeModalHandler();
         }
     };
 

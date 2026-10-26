@@ -2,12 +2,34 @@
 
 import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
 import ArticleMessageModal from "./ArticleMessageModal";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+
+const EXIT_ANIMATION_MS = 320;
 
 export default function ArticleMessageHandler() {
     const {message, setMessage} = useArticleEditor();
+    const [visibleMessage, setVisibleMessage] = useState(message);
+    const [isExiting, setIsExiting] = useState(false);
 
     const closeMessage = () => setMessage(null);
+
+    useEffect(() => {
+        if (message) {
+            setVisibleMessage(message);
+            setIsExiting(false);
+            return;
+        }
+
+        if (!visibleMessage) return;
+
+        setIsExiting(true);
+        const timeout = setTimeout(() => {
+            setVisibleMessage(null);
+            setIsExiting(false);
+        }, EXIT_ANIMATION_MS);
+
+        return () => clearTimeout(timeout);
+    }, [message, visibleMessage]);
 
     useEffect(() => {
         if (!message) return;
@@ -21,11 +43,12 @@ export default function ArticleMessageHandler() {
         return () => clearTimeout(timeout);
     }, [message, setMessage]);
 
-    if (!message) return null;
+    if (!visibleMessage) return null;
 
     return (
         <ArticleMessageModal
-            message={message}
+            message={visibleMessage}
+            isExiting={isExiting}
             onClose={closeMessage}
         />
     );
