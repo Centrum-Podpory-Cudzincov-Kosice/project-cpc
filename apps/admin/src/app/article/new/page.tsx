@@ -1,23 +1,18 @@
-import {ArticleContainer} from "@cpc/article-system";
-import TipTapEditorContent from "@/features/article/ui/text/TipTapEditorContent";
-import TitleEditor from "@/features/article/ui/text/TitleEditor";
-import DateField from "@/features/article/ui/text/DateField";
-import "react-datepicker/dist/react-datepicker.css";
-import EditorHeading from "@/features/article/ui/heading/EditorHeading";
-import GalleryEditor from "@/features/article/ui/gallery/GalleryEditor";
+"use client";
+
+import styles from "@/features/article/article.module.css";
+import {useArticleEditor} from "@/features/providers/ArticleEditorProvider";
+import {ArticleLoading} from "@cpc/article-system";
+import NewArticle from "@/features/article/ui/NewArticle";
 
 export default function NewArticlePage() {
-    return (
-        <ArticleContainer
-            heading={<EditorHeading/>}
+    const {loading} = useArticleEditor();
 
-            gallery={<GalleryEditor/>}
-
-            title={<TitleEditor/>}
-
-            date={<DateField/>}
-
-            content={<TipTapEditorContent/>}
-        />
+    return loading ? (
+        <div className={styles.navigationLoading}>
+            <ArticleLoading/>
+        </div>
+    ) : (
+        <NewArticle/>
     );
 }
