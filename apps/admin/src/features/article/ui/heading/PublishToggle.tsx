@@ -18,9 +18,8 @@ export default function PublishToggle() {
                 type: "success",
                 title: "Článok je publikovaný"
             });
-        } else {
-            closeModalHandler();
         }
+        closeModalHandler();
     };
 
     const handleUnpublish = async () => {
@@ -31,9 +30,8 @@ export default function PublishToggle() {
                 type: "success",
                 title: "Článok je skrytý"
             });
-        } else {
-            closeModalHandler();
         }
+        closeModalHandler();
     };
 
     return (
