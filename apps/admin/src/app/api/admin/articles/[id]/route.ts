@@ -50,18 +50,12 @@ export async function POST(
         .eq("id", id)
         .single();
 
-    const existingImages = article?.images ?? [];
+    const existingImages: string[] = article?.images ?? [];
 
     const existingById = new Map<string, string>();
     existingImages.forEach((url: string) => {
         existingById.set(getImageId(url), url);
     });
-
-    const submittedImageIds = new Set(imageIds);
-
-    const removedImages: string[] = existingImages.filter(
-        (url: string) => !submittedImageIds.has(getImageId(url))
-    );
 
     const images: string[] = [];
 
@@ -102,20 +96,6 @@ export async function POST(
             images.push(existing);
         }
 
-        await Promise.all(
-            removedImages.map((url) => {
-                const key = decodeURIComponent(
-                    new URL(url).pathname.slice(1)
-                );
-
-                return s3.send(
-                    new DeleteObjectCommand({
-                        Bucket: BUCKET,
-                        Key: key,
-                    })
-                );
-            })
-        );
     }
 
     const {data, error} = await supabase
@@ -146,6 +126,30 @@ export async function POST(
             {status: 500}
         );
     }
+
+    const savedImageUrls = new Set(images);
+    const obsoleteImages = [...new Set(existingImages)].filter(
+        (url: string) => !savedImageUrls.has(url)
+    );
+
+    await Promise.all(
+        obsoleteImages.map(async (url) => {
+            try {
+                const key = decodeURIComponent(
+                    new URL(url).pathname.slice(1)
+                );
+
+                await s3.send(
+                    new DeleteObjectCommand({
+                        Bucket: BUCKET,
+                        Key: key,
+                    })
+                );
+            } catch (err) {
+                console.error("Failed to delete replaced or removed image:", url, err);
+            }
+        })
+    );
 
     return Response.json(data);
 }
