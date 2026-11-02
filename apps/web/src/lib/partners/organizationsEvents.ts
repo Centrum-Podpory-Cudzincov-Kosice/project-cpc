@@ -9,9 +9,8 @@ export const organizationsEvents: OrganizationEvent[] = [
     {organizationId: "0", name: "Deň otvorených dverí", time: "10:00 – 14:00", description: "Predstavenie aktivít a poradenstvo pre rodiny.", date: new Date(2026, 10, 21)},
 
     // Človek v ohrození
-    {organizationId: "1", name: "Pracovné poradenstvo", time: "09:00 – 12:00", description: "Individuálna pomoc pri hľadaní práce a orientácii na trhu práce.", dayWeek: "mon", date: new Date(2026, 10, 2), to: new Date(2026, 11, 31)},
-    {organizationId: "1", name: "Príprava životopisu", time: "13:00 – 15:00", description: "Praktický workshop: životopis, motivačný list a pracovný pohovor.", dayWeek: "wed", location: "Poradenské centrum"},
-    {organizationId: "1", name: "Informačné stretnutie pre uchádzačov o prácu", time: "10:00 – 12:00", description: "Základné informácie o hľadaní zamestnania a pracovných podmienkach.", date: new Date(2026, 10, 12)},
+    {organizationId: "1", name: "Konverzačná hodina slovenčiny pre mládež a dospelých", time: "16:00 – 17:00", dayWeek: "thu", location: "CVČ Domino, Popradská 86, Košice"},
+    {organizationId: "1", name: "Klubovňa – aktivity pre mládež", time: "17:00 – 20:00", dayWeek: "fri", location: "Výmenník Wuppertálska, Titogradská 17, Košice"},
 
     // Liga za ľudské práva
     {organizationId: "2", name: "Právne poradenstvo", time: "09:00 – 12:00", description: "Konzultácie k pobytu, azylu a zlúčeniu rodiny.", dayWeek: "tue", location: "Právna poradňa"},

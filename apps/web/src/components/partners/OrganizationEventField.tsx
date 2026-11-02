@@ -21,7 +21,7 @@ export default function OrganizationEventField({event}: { event: OrganizationEve
             <td>{event.time}</td>
             <td>
                 <strong className={styles.eventName}>{event.name}</strong>
-                <span className={styles.eventDescription}>{event.description}</span>
+                {event.description && <span className={styles.eventDescription}>{event.description}</span>}
                 {event.location && (
                     <span className={styles.eventLocation}>
                         <strong>{t("eventLocation")}:</strong> {event.location}

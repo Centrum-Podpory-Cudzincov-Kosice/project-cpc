@@ -11,7 +11,7 @@ export type OrganizationEvent = {
     organizationId: string,
     name: string,
     time: string,
-    description: string,
+    description?: string,
     date?: Date,
     to?: Date,
     dayWeek?: "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun",

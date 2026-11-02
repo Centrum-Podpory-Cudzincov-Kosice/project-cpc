@@ -6,9 +6,16 @@ import {organizationsEvents} from "../../lib/partners/organizationsEvents";
 import OrganizationEventField from "./OrganizationEventField";
 import {BsArrowDownCircle} from "react-icons/bs";
 
-export default function OrganizationBox({organization}: { organization: Organization }) {
+export default function OrganizationBox({
+                                            organization,
+                                            eventsOpen,
+                                            onToggleEvents,
+                                        }: {
+    organization: Organization;
+    eventsOpen: boolean;
+    onToggleEvents: () => void;
+}) {
     const {t} = useTranslation("partners");
-    const [toggleEvents, setToggleEvents] = useState(false);
     const [isWideLogo, setIsWideLogo] = useState(false);
 
     const events = organizationsEvents
@@ -26,11 +33,12 @@ export default function OrganizationBox({organization}: { organization: Organiza
 
     return (
         <article className={styles.card}>
-            <div className={`${styles.logo} ${isWideLogo ? styles.wideLogo : ""}`}>
+            <div className={isWideLogo ? `${styles.logo} ${styles.wideLogo}` : styles.logo}>
                 <img src={organization.logo} alt={`${organization.name} logo`}
                      onLoad={event =>
                          setIsWideLogo(event.currentTarget.naturalWidth / event.currentTarget.naturalHeight > 2)}/>
             </div>
+
             <div className={styles.cardHeader}>
                 <div className={styles.organizationInfo}>
                     <div className={styles.details}>
@@ -42,35 +50,44 @@ export default function OrganizationBox({organization}: { organization: Organiza
                     {organization.contacts.map(contact => {
                         return (<p key={contact}>{contact}</p>)
                     })}
-                    {organization.web && <a href={organization.web} target="_blank" rel="noreferrer">
+                    {organization.web && <a href={organization.web} target={"_blank"} rel={"noreferrer"}>
                         {organization.web}
                     </a>}
                 </div>
                 {hasEvents && (
-                    <button className={styles.toggle} type="button" aria-expanded={toggleEvents}
-                            aria-label={(toggleEvents ? t("hideEvents") : t("showEvents")) as string}
-                            onClick={() => setToggleEvents(!toggleEvents)}>
+                    <button className={styles.toggle}
+                            type={"button"}
+                            aria-expanded={eventsOpen}
+                            aria-controls={`organization-events-${organization.id}`}
+                            aria-label={(eventsOpen ? t("hideEvents") : t("showEvents")) as string}
+                            onClick={onToggleEvents}>
                         <span>{t("events")}</span>
                         <BsArrowDownCircle/>
                     </button>
                 )}
             </div>
-            {hasEvents && toggleEvents && (
-                <div className={`${styles.eventsPanel} ${toggleEvents ? styles.eventsPanelOpen : ""}`}>
-                    <div className={styles.events}>
-                    <table className={styles.eventTable}>
-                        <thead>
-                        <tr>
-                            <th scope="col">{t("eventDate")}</th>
-                            <th scope="col">{t("eventTime")}</th>
-                            <th scope="col">{t("eventActivity")}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {events.map((event, index) =>
-                            <OrganizationEventField event={event} key={index}/>)}
-                        </tbody>
-                    </table>
+
+            {hasEvents && (
+                <div id={`organization-events-${organization.id}`}
+                     className={styles.eventsPanel}
+                     aria-hidden={!eventsOpen}
+                     inert={!eventsOpen}>
+                    <div className={styles.eventsPanelContent}>
+                        <div className={styles.events}>
+                            <table className={styles.eventTable}>
+                                <thead>
+                                <tr>
+                                    <th scope={"col"}>{t("eventDate")}</th>
+                                    <th scope={"col"}>{t("eventTime")}</th>
+                                    <th scope={"col"}>{t("eventActivity")}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {events.map((event, index) =>
+                                    <OrganizationEventField event={event} key={index}/>)}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             )}
