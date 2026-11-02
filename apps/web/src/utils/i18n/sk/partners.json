@@ -1,0 +1,18 @@
+{
+  "events": "Aktivity",
+  "showEvents": "Zobraziť aktivity",
+  "hideEvents": "Skryť aktivity",
+  "eventDate": "Deň\na\ndátum",
+  "eventTime": "Čas",
+  "eventActivity": "Aktivita",
+  "eventLocation": "Miesto",
+  "dayWeek": {
+    "mon": "Po",
+    "tue": "Ut",
+    "wed": "St",
+    "thu": "Št",
+    "fri": "Pi",
+    "sat": "So",
+    "sun": "Ne"
+  }
+}

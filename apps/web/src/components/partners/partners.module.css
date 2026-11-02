@@ -1,0 +1,314 @@
+.grid {
+    display: grid;
+    margin: 1em;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 1rem;
+}
+
+.card {
+    container-type: inline-size;
+    min-width: 0;
+    overflow: hidden;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 4px 16px rgb(15 23 42 / 6%);
+    color: #1e293b;
+    transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgb(15 23 42 / 10%);
+}
+
+.cardHeader {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(10rem, auto) auto;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.organizationInfo {
+    display: block;
+    min-width: 0;
+}
+
+.logo {
+    display: grid;
+    width: 100%;
+    height: clamp(6rem, 16cqi, 7rem);
+    box-sizing: border-box;
+    margin: 0 0 .75rem;
+    place-items: center;
+    border-radius: .75rem;
+}
+
+.logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: .25rem;
+    box-sizing: border-box;
+    object-fit: contain;
+    object-position: center;
+}
+
+.wideLogo img {
+    width: 90%;
+    height: 90%;
+}
+
+.details {
+    min-width: 0;
+}
+
+.name {
+    margin: 0;
+    color: #0f172a;
+    font-size: 1.125rem;
+    line-height: 1.35;
+    overflow-wrap: break-word;
+}
+
+.services {
+    margin: .35rem 0 0;
+    color: #64748b;
+    font-size: .9rem;
+    line-height: 1.5;
+}
+
+.contacts {
+    display: grid;
+    gap: .3rem;
+    margin: 0;
+    color: #475569;
+    font-size: .9rem;
+    overflow-wrap: anywhere;
+}
+
+.contacts p {
+    margin: 0;
+}
+
+.contacts a {
+    color: #2563eb;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.contacts a:hover {
+    text-decoration: underline;
+}
+
+.toggle {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    min-height: 2.5rem;
+    padding: 0 .8rem;
+    border: 1px solid #dbeafe;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    cursor: pointer;
+    font: inherit;
+    font-size: .875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.toggle svg {
+    flex: 0 0 auto;
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 320ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.toggle:hover {
+    background: #dbeafe;
+    border-color: #bfdbfe;
+}
+
+.toggle[aria-expanded="true"] {
+    color: #1e40af;
+}
+
+.toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+}
+
+.toggle:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+.eventsPanel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 420ms cubic-bezier(.22, 1, .36, 1), opacity 260ms ease;
+}
+
+.eventsPanelOpen {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.events {
+    min-height: 0;
+    margin: 1.25rem 0 0;
+    padding: 1rem 0 0;
+    border-top: 1px solid #e2e8f0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.eventTable {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    min-width: 34rem;
+    background: #f8fafc;
+    color: #475569;
+    font-size: .875rem;
+    line-height: 1.5;
+}
+
+.eventTable th,
+.eventTable td {
+    padding: .75rem .65rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.eventTable th {
+    white-space: nowrap;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.eventTable thead th {
+    padding-top: .8rem;
+    padding-bottom: .8rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.eventTable thead th:nth-child(1) {
+    white-space: pre-line;
+}
+
+.eventTable th:nth-child(1),
+.eventTable td:nth-child(1) {
+    width: 1em;
+}
+
+.eventTable th:nth-child(2),
+.eventTable td:nth-child(2) {
+    width: 2em;
+}
+
+.eventTable th:nth-child(3),
+.eventTable td:nth-child(3) {
+    width: 6em;
+}
+
+.eventTable tbody td:first-child {
+    font-size: .95rem;
+    font-weight: 600;
+    white-space: normal;
+}
+
+.eventDayCell {
+    min-width: 0;
+}
+
+.eventWeekday,
+.eventDate {
+    display: block;
+}
+
+.eventDate {
+    color: #64748b;
+    font-size: .8rem;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.eventDateSeparator {
+    width: 6ch;
+    text-align: center;
+}
+
+.eventName,
+.eventDescription {
+    display: block;
+}
+
+.eventName {
+    margin-bottom: .2rem;
+    color: #334155;
+}
+
+.eventLocation {
+    display: block;
+    margin-top: .35rem;
+    color: #64748b;
+    font-size: .85em;
+}
+
+.eventTable tbody tr:nth-child(even) {
+    background: #fff;
+}
+
+.eventTable tr + tr th,
+.eventTable tr + tr td {
+    border-top: 1px solid #e2e8f0;
+}
+
+@container (max-width: 40rem) {
+    .cardHeader {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: .75rem;
+    }
+
+    .contacts {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .toggle {
+        grid-column: 2;
+        grid-row: 1;
+    }
+}
+
+@media (max-width: 40rem) {
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (min-width: 100rem) {
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card, .toggle, .toggle svg, .eventsPanel {
+        transition: none;
+    }
+}

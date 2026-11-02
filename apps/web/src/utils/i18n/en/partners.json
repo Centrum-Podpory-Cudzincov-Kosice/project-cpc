@@ -1,0 +1,18 @@
+{
+  "events": "Activities",
+  "showEvents": "Show activities",
+  "hideEvents": "Hide activities",
+  "eventDate": "Day\nand\ndate",
+  "eventTime": "Time",
+  "eventActivity": "Activity",
+  "eventLocation": "Location",
+  "dayWeek": {
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat",
+    "sun": "Sun"
+  }
+}

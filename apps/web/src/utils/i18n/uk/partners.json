@@ -1,0 +1,18 @@
+{
+  "events": "Заходи",
+  "showEvents": "Показати заходи",
+  "hideEvents": "Сховати заходи",
+  "eventDate": "День\nі\nдата",
+  "eventTime": "Час",
+  "eventActivity": "Захід",
+  "eventLocation": "Місце",
+  "dayWeek": {
+    "mon": "Пн",
+    "tue": "Вт",
+    "wed": "Ср",
+    "thu": "Чт",
+    "fri": "Пт",
+    "sat": "Сб",
+    "sun": "Нд"
+  }
+}

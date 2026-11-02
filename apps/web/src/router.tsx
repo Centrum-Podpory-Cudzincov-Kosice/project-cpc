@@ -7,6 +7,7 @@ import NewsPage from "./pages/News";
 import EventsListPage from "./pages/EventsList";
 import EventPage from "./pages/Event";
 import ImmigrantsMapPage from "./pages/ImmigrantsMap";
+import PartnersPage from "./pages/Partners";
 
 export const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
             {
                 path: "/immigrants-map",
                 element: <ImmigrantsMapPage />
+            },
+            {
+                path: "/partners",
+                element: <PartnersPage />
             }
         ]
     }

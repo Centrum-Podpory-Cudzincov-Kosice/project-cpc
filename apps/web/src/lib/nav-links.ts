@@ -14,6 +14,10 @@ const navLinks = [
     {
         label: 'immigrantsMap',
         url: '/immigrants-map',
+    },
+    {
+        label: 'partners',
+        url: '/partners',
     }
 ];
 
