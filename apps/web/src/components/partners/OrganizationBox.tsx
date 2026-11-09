@@ -2,7 +2,9 @@ import styles from "./partners.module.css";
 import {useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Organization, OrganizationEvent} from "../../types/partners";
+/*
 import {organizationsEvents} from "../../lib/partners/organizationsEvents";
+*/
 import OrganizationEventField from "./OrganizationEventField";
 import {BsArrowDownCircle} from "react-icons/bs";
 
