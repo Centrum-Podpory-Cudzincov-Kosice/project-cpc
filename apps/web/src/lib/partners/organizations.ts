@@ -31,8 +31,8 @@ export const organizations: Organization[] = [
         services: "Psychologická podpora",
         web: "",
         contacts: [
-            "+421 903 222 222",
-            "shr@shr.sk"
+            "Adresa: Hlavná 68, 2. Poschodie, č. Dverí B 2.24",
+            "Tel.: +421 918 588 210"
         ]
     },
     {

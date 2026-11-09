@@ -1,7 +1,7 @@
 import styles from "./partners.module.css";
 import {useState} from "react";
 import {useTranslation} from "react-i18next";
-import {Organization} from "../../types/partners";
+import {Organization, OrganizationEvent} from "../../types/partners";
 import {organizationsEvents} from "../../lib/partners/organizationsEvents";
 import OrganizationEventField from "./OrganizationEventField";
 import {BsArrowDownCircle} from "react-icons/bs";
@@ -18,7 +18,7 @@ export default function OrganizationBox({
     const {t} = useTranslation("partners");
     const [isWideLogo, setIsWideLogo] = useState(false);
 
-    const events = organizationsEvents
+/*    const events = organizationsEvents
         .filter(event => event.organizationId === organization.id)
         .sort((a, b) => {
             if (a.dayWeek && !b.dayWeek) return -1;
@@ -28,7 +28,9 @@ export default function OrganizationBox({
                 return weekdayOrder.indexOf(a.dayWeek) - weekdayOrder.indexOf(b.dayWeek);
             }
             return (a.date?.getTime() ?? 0) - (b.date?.getTime() ?? 0);
-        });
+        });*/
+
+    const events: OrganizationEvent[] = [];
     const hasEvents = events.length > 0;
 
     return (
