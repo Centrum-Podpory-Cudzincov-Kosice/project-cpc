@@ -15,12 +15,14 @@ import clsx from "clsx";
 const turndown = new TurndownService({
     headingStyle: "atx",
     bulletListMarker: "-",
-});
+    blankReplacement(_content, node) {
+        if (node.nodeName === "P") {
+            return "\n\n&#8203;\n\n";
+        }
 
-turndown.addRule("paragraph", {
-    filter: "p",
-    replacement(content: string): string {
-        return `\n${content.trim()}\n`;
+        return (node as HTMLElement & {isBlock: boolean}).isBlock
+            ? "\n\n"
+            : "";
     },
 });
 
