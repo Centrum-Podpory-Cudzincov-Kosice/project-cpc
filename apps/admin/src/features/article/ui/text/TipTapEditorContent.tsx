@@ -15,6 +15,7 @@ import clsx from "clsx";
 const turndown = new TurndownService({
     headingStyle: "atx",
     bulletListMarker: "-",
+    emDelimiter: "*",
     blankReplacement(_content, node) {
         if (node.nodeName === "P") {
             return "\n\n&#8203;\n\n";
@@ -45,6 +46,7 @@ export default function TipTapEditorContent() {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
+                link: false,
                 trailingNode: {
                     notAfter: ["paragraph", "heading"],
                 },
