@@ -1,4 +1,4 @@
-# Košice for You · Support Center
+# Košice for You · Foreigners' Support Center
 
 <p align="center">
   A multilingual information website with a protected admin app for managing news and events.
