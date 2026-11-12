@@ -30,8 +30,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@cpc/article-system": ["../../packages/article-system/src"],
-      "@cpc/languages": ["../../packages/languages/src"],
-      "@cpc/hooks": ["../../packages/hooks/src"],
+      "@cpc/languages": ["../../packages/languages/src"]
     }
   },
   "include": [
