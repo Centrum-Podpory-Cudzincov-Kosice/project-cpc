@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./fonts/*": "./src/fonts/*"
+    "./fonts/onest.css": "./src/fonts/onest.css",
+    "./fonts/Onest/*": "./src/fonts/Onest/*"
   },
   "files": [
     "src"
   ],
-  "sideEffects": false
+  "sideEffects": ["**/*.css"]
 }
