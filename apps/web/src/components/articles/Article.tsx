@@ -58,7 +58,17 @@ export default function Article({articleData, type}: {
             date={date}
 
             content={
-                <ReactMarkdown>
+                <ReactMarkdown components={{
+                    a: ({node, ...props}) => {
+                        void node;
+
+                        return (
+                            <a {...props}
+                               target="_blank"
+                               rel="noopener noreferrer"/>
+                        );
+                    },
+                }}>
                     {text}
                 </ReactMarkdown>
             }

@@ -52,9 +52,13 @@ export default function TipTapEditorContent() {
                 },
             }),
             Link.configure({
-                openOnClick: false,
+                openOnClick: true,
                 autolink: true,
                 defaultProtocol: "https",
+                HTMLAttributes: {
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                },
             }),
         ],
 
